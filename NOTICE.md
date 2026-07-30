@@ -8,7 +8,9 @@ This notice applies to the project-authored source code, editorial content,
 design, documentation, generated geometry, and original project artwork in
 this repository. No licence or permission to copy, modify, distribute,
 sublicense, or commercially exploit that project-authored material is granted
-unless Annas M. Ishtiaq provides it separately in writing.
+unless Annas M. Ishtiaq provides it separately in writing. The complete
+terms are in [LICENSE](LICENSE); contributions are governed by the
+[Contributor License Agreement](CONTRIBUTOR_LICENSE_AGREEMENT.md).
 
 Third-party scientific data, references, software dependencies, names, and
 other third-party material retain their respective licences, rights, and

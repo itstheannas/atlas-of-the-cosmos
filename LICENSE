@@ -1,0 +1,39 @@
+Atlas of the Cosmos
+Copyright (c) 2026 Annas M. Ishtiaq. All rights reserved.
+
+This repository is made publicly viewable for reference, evaluation, and
+portfolio purposes only. It is NOT open-source software, and no licence is
+granted by its availability.
+
+Except for the limited rights that cannot be withheld on the hosting
+platform (such as viewing and forking within the platform under its terms
+of service), no permission is granted to:
+
+  1. copy, reproduce, or redistribute the project-authored source code,
+     editorial content, design, documentation, generated geometry, or
+     original artwork, in whole or in part;
+  2. modify or create derivative works of that material;
+  3. use that material, or any substantial portion of it, in another
+     product, service, publication, dataset, or model-training corpus; or
+  4. use the "Atlas of the Cosmos" name or the project's visual identity
+     to identify any other work.
+
+Any such permission must be granted separately and in writing by
+Annas M. Ishtiaq.
+
+THIRD-PARTY MATERIAL. Third-party scientific data, software dependencies,
+and other third-party material remain under their own licences and
+attribution requirements, which this notice does not alter. In particular,
+the bundled OpenNGC-derived sample data remains subject to its CC BY-SA
+licence; see the data-source manifests and docs/data-sources/ for details.
+
+CONTRIBUTIONS. Submitting a contribution does not transfer any right in
+this repository to the contributor and does not create a licence to the
+contributor. Contributions are accepted only under the terms in
+CONTRIBUTOR_LICENSE_AGREEMENT.md.
+
+NO WARRANTY. THE MATERIAL IN THIS REPOSITORY IS PROVIDED "AS IS", WITHOUT
+WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, ACCURACY,
+AND NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY CLAIM,
+DAMAGES, OR OTHER LIABILITY ARISING FROM THE MATERIAL OR ITS USE.
