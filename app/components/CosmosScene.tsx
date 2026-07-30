@@ -779,13 +779,17 @@ function createMarkerBatch(
           wireframe: true,
           toneMapped: true,
         })
-      : new THREE.MeshStandardMaterial({
+      : // Per-instance colour arrives through `setColorAt`, which the renderer
+        // applies via instancing. `vertexColors` must stay off: these
+        // primitive geometries have no `color` attribute, so enabling it makes
+        // the shader multiply albedo by an unbound attribute and every marker
+        // renders black regardless of lighting.
+        new THREE.MeshStandardMaterial({
           color: "#ffffff",
           roughness: kind === "derived-structure" ? 0.48 : 0.68,
           metalness: kind === "derived-structure" ? 0.18 : 0.04,
           emissive: new THREE.Color("#07101b"),
           emissiveIntensity: 0.5,
-          vertexColors: true,
           transparent: kind === "derived-structure",
           opacity: kind === "derived-structure" ? 0.88 : 1,
           toneMapped: true,
