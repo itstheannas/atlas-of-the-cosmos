@@ -1,0 +1,6 @@
+# Normalise to LF everywhere; the pipeline, tests, and CI all assume LF.
+* text=auto eol=lf
+*.png binary
+*.gz binary
+*.woff binary
+*.woff2 binary

@@ -9,7 +9,7 @@ The reference release has no active D1/R2 binding or server-side user data.
 | Source, docs, manifests, migrations                           | protected Git remote                        | checkout reviewed commit                                                          |
 | npm dependency graph                                          | `package-lock.json` + registry availability | `npm ci`                                                                          |
 | Derived sample data                                           | source inputs, manifests, pipeline version  | `npm run data:sample` and compare validation report                               |
-| Built deployment                                              | immutable saved Sites version               | redeploy saved version                                                            |
+| Built deployment                                              | recorded Workers deployment version         | `wrangler rollback` to the recorded version                                       |
 | Device-local bookmarks/recent lists/tour progress/preferences | user's browser                              | no central restore; reset or user-controlled browser backup only                  |
 | Service-worker route/static cache                             | disposable browser cache                    | repopulate from a verified online deployment; never treat as authoritative backup |
 | Hosting logs/configuration                                    | deployment operator/provider                | provider-specific, with documented retention                                      |
@@ -24,8 +24,8 @@ may be cleared by the user, browser, or policy.
 3. Run `npm ci`, the explicit database no-op/migration commands,
    `npm run validate`, and `npm run security:audit`.
 4. Compare generated data, build chunks, and the SBOM with the release record.
-5. Smoke-test, save a Sites version, and deploy through the normal
-   approval process.
+5. Smoke-test locally, then deploy through the normal approval process and
+   record the new Workers version ID.
 6. Verify API readiness and service-worker update in fresh and existing browser
    contexts.
 

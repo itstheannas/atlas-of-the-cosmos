@@ -2,21 +2,25 @@
 
 - Status: Accepted
 - Date: 2026-07-29
+- Amended: 2026-07-30 — the hosting target is Cloudflare Workers; the build
+  already produced a portable Worker, so the application architecture is
+  unchanged.
 
 ## Context
 
 The experience needs semantic content and direct routes as well as an
-imperative, high-frequency 3D scene. The repository starter already targets
-managed Sites hosting through vinext, Vite, React server components, and a
-Worker entry point. Splitting a small reference implementation into services would add
-deployment and failure modes without a measured scaling benefit.
+imperative, high-frequency 3D scene. The repository starter already produces
+a portable Cloudflare Worker through vinext, Vite, React server components,
+and a Worker entry point. Splitting a small reference implementation into
+services would add deployment and failure modes without a measured scaling
+benefit.
 
 ## Decision
 
 Use a modular monolith:
 
 - vinext supplies the Next-style application model on the existing Vite and
-  managed Sites deployment path;
+  Cloudflare Workers deployment path;
 - React 19 owns documents, routing, controls, accessibility, and
   low-frequency interaction state;
 - Three.js is used directly behind a client-only rendering component;

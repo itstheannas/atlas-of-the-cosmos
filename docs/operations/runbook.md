@@ -51,8 +51,8 @@ Run after staging and production deployment:
 18. Inspect `window.__ATLAS_DIAGNOSTICS__`; confirm the documented schema,
     64-entry bound, privacy mode, and expected renderer metrics after at least
     one five-second scene window.
-19. Confirm the managed Sites access policy remains owner-only with no user
-    group, workspace group, or tenant group grant.
+19. Confirm the production Worker name, URL, and provider-edge rate-limiting
+    rule match the release record.
 
 Record browser/OS, viewport, commit, build/dataset version, URL, timestamp, and
 failures. A screenshot alone is not a pass.

@@ -70,7 +70,8 @@ Worker, runs the desktop/mobile browser suite, and generates an SBOM.
   search/details, tours, source provenance, and OpenAPI 3.1;
 - an install-time service worker that caches core routes and same-origin static
   assets for a limited offline-after-first-load fallback; and
-- a portable Worker build and managed Sites hosting configuration.
+- a portable Cloudflare Workers build with generated deployment
+  configuration.
 
 Visual positions, sizes, colour, glow, orbit guides, and time animation may be
 compressed, schematic, or illustrative. The interface and data model
@@ -92,11 +93,11 @@ scientific packages and deterministic pipeline
   `-- typed units, coordinates, provenance, uncertainty, validation
 ```
 
-vinext runs the Next-style app through Vite and a Worker runtime. The default
-managed hosting configuration does not bind D1 or R2. The repository includes an
-implementation-ready, locally verified SQLite/D1 schema, deterministic
-development seed, and destructive rollback artifact for future reviewed
-persistence work; no hosted D1 operation is claimed.
+vinext runs the Next-style app through Vite and a Cloudflare Worker runtime.
+The default configuration binds no D1 database or R2 bucket. The repository
+includes an implementation-ready, locally verified SQLite/D1 schema,
+deterministic development seed, and destructive rollback artifact for future
+reviewed persistence work; no hosted D1 operation is claimed.
 
 Read the [architecture overview](docs/architecture/overview.md) and the
 [rendering/coordinate model](docs/architecture/rendering-and-coordinates.md)
@@ -191,11 +192,11 @@ the private process in [SECURITY.md](SECURITY.md), not a public issue.
 
 ## Deploy
 
-Deployments are managed as saved Sites versions tied to the exact pushed
-source state. Staging and production should use separate projects, and
-production requires explicit approval. Run the full gate, verify the hosted
-response and `/api/v1/ready`, and retain the previous saved version for
-rollback.
+Deployments are Cloudflare Workers deployments of the exact validated build,
+tied to a reviewed commit. Staging and production use separate Workers, and
+production requires explicit approval. Run the full gate, deploy with
+Wrangler, verify the hosted response and `/api/v1/ready`, and retain the
+previous Workers version for rollback.
 
 Start with the
 [step-by-step deployment guide](docs/operations/deployment-step-by-step.md),
@@ -230,6 +231,9 @@ accessibility, data licensing, and the 3D/non-3D boundary. Read
 [CONTRIBUTING.md](CONTRIBUTING.md) and the
 [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
 
-Contribution does not change ownership or grant a project licence. See the
-[copyright and rights notice](NOTICE.md). Third-party scientific data retain
-their respective licences and attribution requirements.
+Contribution does not change ownership or grant a project licence;
+contributions are accepted only under the
+[Contributor License Agreement](CONTRIBUTOR_LICENSE_AGREEMENT.md). See the
+[LICENSE](LICENSE) and the [copyright and rights notice](NOTICE.md).
+Third-party scientific data retain their respective licences and
+attribution requirements.

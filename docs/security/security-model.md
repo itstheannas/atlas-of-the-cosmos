@@ -39,13 +39,13 @@ No Atlas route requires an application account. The starter's optional
 authentication helper is unused. Hiding navigation would not be access
 control.
 
-The current managed Sites project uses a custom owner-only access policy with
-one allowed user and no group-wide grants. Preserve that control-plane boundary
-unless Annas M. Ishtiaq explicitly approves a reviewed policy change. The
-application itself does not consume the hosting identity as product
-authorisation. If write features are added, enforce identity and authorisation
-on the server for every operation; never depend on a client role or injected
-display name alone.
+The hosted deployment is a publicly reachable Cloudflare Worker; deployment
+authority is bounded by the Cloudflare account, which must remain owned by
+Annas M. Ishtiaq, protected by two-factor authentication, and free of shared
+or committed credentials. The application itself does not consume any
+hosting identity as product authorisation. If write features are added,
+enforce identity and authorisation on the server for every operation; never
+depend on a client role or injected display name alone.
 
 ## Browser storage
 

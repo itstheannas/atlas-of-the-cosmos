@@ -8,12 +8,12 @@ accessibility, privacy, and a useful non-3D experience—not only visual impact.
 Atlas of the Cosmos is an Annas M. Ishtiaq project. Copyright © 2026
 Annas M. Ishtiaq. All rights reserved. This repository does not offer a public
 licence or an automatic right to copy, modify, distribute, or reuse
-project-authored material.
+project-authored material; see [LICENSE](LICENSE) and [NOTICE.md](NOTICE.md).
 
-Before submitting code, content, design, or another contribution, agree the
-applicable contribution terms separately with Annas M. Ishtiaq. This guide
-does not create or describe a copyright assignment, licence grant, or other
-legal transfer. See [NOTICE.md](NOTICE.md).
+Every contribution is accepted only under the
+[Contributor License Agreement](CONTRIBUTOR_LICENSE_AGREEMENT.md);
+submitting a pull request constitutes acceptance of its terms. Agree any
+different terms in writing with Annas M. Ishtiaq before submitting.
 
 ## Set up
 

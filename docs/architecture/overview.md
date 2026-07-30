@@ -42,11 +42,10 @@ React routes and semantic UI              read-only /api/v1
 ```
 
 The default release needs no upstream external API, database, object store,
-account, secret, or paid service. The hidden hosting manifest leaves D1 and R2
-unbound until a Sites project or binding is deliberately configured. The
-implementation-ready SQLite/D1 schema, seed, forward migration, and destructive
-down migration are verified in memory but remain outside the active runtime
-data path.
+account, secret, or paid service. D1 and R2 stay unbound until a binding is
+deliberately configured through a reviewed change. The implementation-ready
+SQLite/D1 schema, seed, forward migration, and destructive down migration are
+verified in memory but remain outside the active runtime data path.
 
 ## Runtime responsibilities
 
@@ -231,8 +230,8 @@ to browser storage.
 - Network loss can fall back to previously cached navigation/static content;
   a first visit still needs a successful service-worker install.
 - API failures return typed, correlation-bearing JSON without stack traces.
-- A failed hosted release is rolled back to the last known-good saved Sites
-  version.
+- A failed hosted release is rolled back to the last known-good recorded
+  Workers deployment version.
 
 ## Dependency direction
 

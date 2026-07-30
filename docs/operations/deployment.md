@@ -7,34 +7,38 @@ defines the underlying policy and environment model.
 
 ## Deployment model
 
-The repository builds a portable Worker application for managed Sites hosting.
-The hidden hosting manifest is the source of truth for the opaque Sites project
-and optional binding identifiers. Never invent, derive, copy from another
-project, or hand-edit an opaque project ID.
+The repository builds a portable Cloudflare Worker: `npm run build` writes
+the server module, static client assets, and a complete generated
+`dist/server/wrangler.json` configuration. A deployment is `wrangler deploy`
+of that exact validated build output under a fixed Worker name. There is no
+separate hosting manifest, archive format, or control-plane credential file
+in the repository.
 
-If the file has no `project_id`, initialise the site exactly once through the
-Sites control plane and immediately persist the returned opaque ID unchanged.
-Do not call site creation repeatedly to work around a slug or permission
-failure. Obtain source credentials through the control plane, keep them
-process-scoped, push the exact candidate source, and never commit the token.
+The default release needs no D1 database, R2 bucket, upstream external API,
+or runtime secret. Its same-origin `/api/v1` projects bundled data. Keep
+unused bindings unset; enabling a binding is a reviewed architecture change,
+not a deployment convenience.
 
-The default release needs no D1 database, R2 bucket, upstream external API, or
-secret. Its same-origin `/api/v1` projects bundled data. Keep unused bindings
-unset.
+### Account and credential boundary
 
-### Current access boundary
+Deployments use a Cloudflare account owned by Annas M. Ishtiaq. Interactive
+`wrangler login` OAuth on the release machine, or an environment-scoped
+`CLOUDFLARE_API_TOKEN` held in a protected CI secret, are the only approved
+credential paths. Never commit a token, place one in a URL or shell history,
+or reuse a personal token for automation. Protect the Cloudflare account
+with a strong unique password and two-factor authentication.
 
-The current Sites project was inspected with a custom private policy: one
-allowed owner account, no allowed groups, and no workspace- or tenant-wide
-group access. Preserve that owner-only boundary unless Annas M. Ishtiaq
-explicitly approves a reviewed policy change. Record the policy shape, not
-identity values or access tokens, in release evidence.
+Every `*.workers.dev` URL is publicly reachable. Staging privacy relies on
+an undiscoverable Worker name and short lifetime; do not upload content to
+staging that must remain confidential unless the staging Worker is first
+placed behind Cloudflare Access.
 
 ## Prerequisites
 
-- Node.js `>=22.13.0`
+- Node.js at the version pinned in [`.nvmrc`](../../.nvmrc)
 - npm and the committed `package-lock.json`
-- access to the intended Sites project for a hosted release
+- Wrangler (a locked devDependency; run through `npm exec -- wrangler`)
+- access to the intended Cloudflare account for a hosted release
 - a reviewed commit on the protected release branch
 
 ## Local production rehearsal
@@ -53,64 +57,47 @@ npm run start
 
 Open the printed local URL and complete the smoke checks in the
 [runbook](runbook.md). `npm ci --ignore-scripts --no-audit --no-fund` is the
-reviewed release installation command;
-do not substitute an unconstrained dependency update during release.
-`npm run start` serves the already built Worker through the project-local
-preview runtime; it does not rebuild source.
-Migration/seed are explicit no-ops while the hidden hosting manifest has no D1
-or R2 binding. They must fail closed rather than inventing a hosted operation.
-`validate` checks the environment/hosting shape, regenerates sample data, runs
-coverage plus the source/history security and licence gates, performs the
-network-backed high-severity advisory audit, builds, starts a production server
-for browser tests, checks the final Worker, and writes the SBOM. The explicit
-standalone audit command above preserves a separate release-log entry for the
-master verification sequence. The asset sanitizer must be lossless; verify
-that it leaves no unexpected source diff before promotion.
+reviewed release installation command; do not substitute an unconstrained
+dependency update during release. `npm run start` serves the already built
+Worker through the project-local preview runtime; it does not rebuild
+source. Migration/seed are explicit no-ops while D1 is unbound; they must
+fail closed rather than inventing a hosted operation. `validate` checks the
+environment, regenerates sample data, runs coverage plus the source/history
+security and licence gates, performs the network-backed high-severity
+advisory audit, builds, starts a production server for browser tests, checks
+the final Worker, and writes the SBOM.
 
 ## Environments
 
-Use independent configuration and independent managed projects for hosted
-preview, staging, and production. A hosted deployment URL is a real
-deployment, not a client-only safety boundary.
+| Environment | Purpose                                      | Worker                      | Promotion                             |
+| ----------- | -------------------------------------------- | --------------------------- | ------------------------------------- |
+| Local       | implementation and deterministic checks      | `npm run start` preview     | none                                  |
+| Staging     | browser/device checks of a release candidate | `atlas-of-the-cosmos-stage` | reviewed commit only                  |
+| Production  | public release                               | `atlas-of-the-cosmos`       | explicit approval / protected release |
 
-| Environment    | Purpose                                      | Data                                       | Promotion                             |
-| -------------- | -------------------------------------------- | ------------------------------------------ | ------------------------------------- |
-| Local          | implementation and deterministic checks      | bundled sample                             | none                                  |
-| Hosted preview | ephemeral review of a candidate commit       | bundled candidate sample                   | reviewed candidate only               |
-| Staging        | browser/device checks of a release candidate | same versioned sample intended for release | reviewed commit only                  |
-| Production     | policy-restricted release                    | immutable versioned sample                 | explicit approval / protected release |
+Staging and production are separate Workers that never share a name. A
+hosted deployment URL is a real deployment, not a client-only safety
+boundary. Do not connect production secrets or storage to candidate builds;
+at present there are no such resources.
 
-The manually dispatched `Release candidate` workflow has separate `preview`,
-`staging`, and `production` choices. Its validation job finishes before the
-environment-specific packaging job, and `deployment: false` avoids a false
-deployment record. Where supported for the private repository, administrators
-must protect production packaging with required reviewers and prevent
-self-review; otherwise retain a separate owner approval record. Source upload
-and deployment remain separately authorised operator actions.
-
-Do not connect production secrets or storage to pull-request builds. At present
-there are no such resources.
+Deployment is a manual operator action taken only after the full CI gate has
+passed on the exact candidate commit. If automated deployment is introduced
+later, it must run from a protected workflow using an environment-scoped
+`CLOUDFLARE_API_TOKEN` secret and preserve the same approval gates.
 
 ## Staging release
 
 1. Choose the reviewed commit and ensure the worktree exactly matches it.
 2. Run the local production rehearsal above.
-3. Push that exact source state.
-4. Run `npm run release:package -- --environment staging` on that clean source
-   state with the matching protected metadata and retain the generated
-   commit/file/archive hash manifest.
-5. In the managed control interface, save a version from that pushed commit
-   and the generated archive.
-6. Deploy the saved version to the separate staging project.
-7. Wait for deployment to reach a terminal successful state.
-8. Record commit, dataset manifest/version, build time, deployment URL, and
-   validation results.
-9. Run smoke, API readiness, service-worker update/offline fallback, keyboard,
-   reduced-motion, responsive, and WebGL-failure checks.
+3. Deploy the exact `dist/` output with
+   `npm exec -- wrangler deploy --config dist/server/wrangler.json --name atlas-of-the-cosmos-stage`.
+4. Record commit, dataset manifest/version, build time, Worker version ID,
+   staging URL, and validation results.
+5. Run smoke, API readiness, service-worker update/offline fallback,
+   keyboard, reduced-motion, responsive, and WebGL-failure checks against
+   the staging URL.
 
-Do not describe a non-terminal deployment as successful.
-No separate staging project or staging deployment is recorded in the current
-audit; create and verify that boundary before claiming staged promotion.
+Do not describe a failed or unverified deploy as successful.
 
 ## Production release
 
@@ -119,21 +106,17 @@ audit; create and verify that boundary before claiming staged promotion.
    generation, and the release checklist passed. A high/critical finding
    requires remediation or a time-bounded, owner-approved mitigation record;
    it must not be hidden.
-3. Obtain the explicit approval required by the protected production process.
-4. Create and hash the production-bound archive with
-   `npm run release:package -- --environment production`.
-5. Save a production version from the exact pushed source state and matching
-   production archive.
-6. Deploy only that saved version to the production managed project.
-7. Wait for terminal status and record the returned version/deployment IDs as
-   opaque values.
-8. Confirm the deployed access policy remains the approved owner-only policy;
-   do not make the release public as a convenience.
-9. Run the runbook smoke checks against production.
-10. Observe errors and user-impact signals during the release window.
+3. Obtain the explicit approval required by the protected production
+   process.
+4. Deploy the same validated `dist/` output with
+   `npm exec -- wrangler deploy --config dist/server/wrangler.json --name atlas-of-the-cosmos`.
+5. Record the returned version ID as the release identity alongside the
+   commit.
+6. Run the runbook smoke checks against production.
+7. Confirm the provider-edge rate-limiting rule is active.
+8. Observe errors and user-impact signals during the release window.
 
-Application code must not contain a production token or project credential.
-Hosting access belongs in the control plane.
+Application code must not contain a production token or credential.
 
 ## Security verification
 
@@ -151,10 +134,9 @@ Against the final HTTPS origin, inspect:
   browser bundles.
 
 Also verify `/api/v1/health`, `/api/v1/ready`, `/api/v1/version`, API
-cache/ETag behaviour, the absence of wildcard CORS, and provider-edge rate
-limits. Confirm the managed Sites access policy has exactly the approved
-single-user scope and no group-wide grants. The application limiter is per
-isolate and is not sufficient for a public production quota.
+cache/ETag behaviour, the absence of wildcard CORS, and the provider-edge
+rate-limiting rule. The application limiter is per isolate and is not
+sufficient for a public production quota.
 
 The policy target is documented in
 [Security model](../security/security-model.md). Do not claim a header is
@@ -165,22 +147,22 @@ active based only on source configuration; check the deployed response.
 Rollback is a deployment action, not a source rewrite:
 
 1. Declare the release degraded and stop further promotion.
-2. Select the last known-good **saved** version for the same production Sites
-   project.
-3. Deploy that version.
-4. Wait for terminal success and run the smoke checks.
-5. Record the replaced and restored version IDs, time, approver, symptoms, and
-   dataset versions.
-6. Keep the faulty release available for investigation; do not destroy logs or
-   overwrite evidence.
+2. Identify the last known-good Workers version with
+   `npm exec -- wrangler deployments list`.
+3. Roll back with `npm exec -- wrangler rollback` and select the recorded
+   known-good version.
+4. Run the smoke checks against production.
+5. Record the replaced and restored version IDs, time, approver, symptoms,
+   and dataset versions.
+6. Keep the faulty release available for investigation; do not destroy logs
+   or overwrite evidence.
 7. Fix forward through the normal reviewed release process.
 
 Because the current release has no bound server-side database or user data,
-application rollback does not require a database migration. The committed
-optional schema/down migration is not active. Revisit this procedure before
-enabling D1/R2 or a remote upstream/persistent API.
+application rollback does not require a database migration. Revisit this
+procedure before enabling D1/R2 or a remote upstream/persistent API.
 
 Test rollback in a fresh browser context and an already-controlled
-service-worker context. A successful origin rollback is not enough if a stale
-worker/cache still serves an inconsistent artefact; inspect the active worker,
-cache name, navigation response, and hashed assets.
+service-worker context. A successful origin rollback is not enough if a
+stale worker/cache still serves an inconsistent artefact; inspect the active
+worker, cache name, navigation response, and hashed assets.
