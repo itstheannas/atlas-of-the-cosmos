@@ -43,8 +43,8 @@ DOM text, browser-storage contents, identity, and device identifiers.
 
 The Atlas application does not request or consume identity headers for its
 anonymous experience, and it contains no account or sign-in feature. The
-current managed Sites project applies an owner-only access policy before the
-application boundary; that hosting identity is not copied into Atlas state.
+hosted deployment is publicly reachable and requires no visitor identity;
+no hosting identity is copied into Atlas state.
 
 If identity-dependent features are added, complete a separate privacy and
 security review covering purpose, legal basis, access control, retention,
@@ -52,7 +52,7 @@ export, correction, deletion, incident notification, and hosting boundaries.
 
 ## Hosting data
 
-The managed hosting platform may process ordinary request metadata such as
+The hosting provider (Cloudflare) may process ordinary request metadata such as
 IP address, user agent, requested path, timestamp, and security events. That
 processing is controlled by the deployment and provider configuration, not by
 browser local storage. Operators should:
