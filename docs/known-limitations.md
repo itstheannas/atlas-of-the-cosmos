@@ -41,11 +41,26 @@ has been verified.
   worker decoding.
 - Visual point size, glow, colour, orbit guides, and spacing may be exaggerated
   for legibility and are not measurements unless the interface says otherwise.
+- Named Solar System bodies are rendered individually with procedural surface
+  shaders, rings, axial tilt, and a Sun-facing terminator. These surfaces are
+  illustrative: they are computed from the cited physical parameters and from
+  hand-matched impressions of published NASA/ESA imagery, not from photographs,
+  maps, or albedo data. Cloud bands, storms, cracks, craters, and ringlet
+  structure are plausible patterns, not the real features at real longitudes,
+  and no rendered surface should be measured or cited as an observation.
+- Body sizes use a power-law compression of true equatorial radii. Ordering and
+  broad proportion are preserved, but the bodies are not to scale with each
+  other and are not to scale with the distances between them.
+- Body spin is a presentation clock. Relative rotation rates follow the cited
+  sidereal periods, including retrograde directions, but absolute orientation
+  is arbitrary and is not a sub-solar longitude or a real phase.
+- Only bodies with an entry in `lib/planetary-appearance.ts` receive this
+  treatment. Every other object still renders as a batched marker or point.
 - WebGL behaviour varies by browser, GPU, driver, device temperature, and power
   mode. The semantic fallback is more portable than the 3D fidelity.
 - There is no WebGPU or VR renderer. Standard-gamepad polling is implemented,
   but no broad controller/device compatibility guarantee has been recorded.
-- The last recorded clean build produced a 570,075-byte (about 556.7 KiB)
+- The last recorded clean build produced a 597,549-byte (about 583.5 KiB)
   route-split
   `CosmosScene` client chunk, above the build tool's default 500 KiB warning
   threshold. Dynamic loading keeps it out of non-renderer route entry code,
@@ -87,9 +102,10 @@ has been verified.
   circular mean-motion positions for a small Solar System subset. It also
   reports rounded orbital/rotation phases, a synthetic Moon phase indicator,
   and date jumps for a short historical-event list. The scene model clamps
-  dates to 1900–2100; rotations and lunar illumination are readouts rather than
-  rendered body orientation/lighting, historical events do not reconstruct the
-  sky, and the model is not an ephemeris.
+  dates to 1900–2100; lunar illumination is a readout, historical events do not
+  reconstruct the sky, and the model is not an ephemeris. Named Solar System
+  bodies now render a schematic spin and a Sun-facing terminator, but that
+  orientation is presentation-only and is not driven by the time controller.
 - Comparison graphics canonicalise supported length, mass, duration,
   temperature, speed, and angle units before forming ratios; mixed dimensions
   and non-ratio quantities are not plotted. Linear true-scale mode applies only

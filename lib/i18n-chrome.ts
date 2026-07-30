@@ -168,7 +168,7 @@ export const englishChromeCopy = {
     schematicRenderUnits: "{value} schematic render units",
     initialising: "initialising…",
     renderCoordinateCaveat:
-      "Render coordinates are bounded visual positions, never scientific coordinates or an implied common physical scale.",
+      "Render coordinates are bounded visual positions, never scientific coordinates or an implied common physical scale. Planetary surfaces and rings are illustrative shapes drawn from cited measurements and published imagery impressions, not photographs, and body sizes are compressed for legibility.",
     controls: "Explorer controls",
     cameraSpeedLabel: "Camera speed: {speed}×",
     selectedScience: "Selected-object scientific labels",
