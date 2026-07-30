@@ -386,6 +386,17 @@ test("an uncached navigation falls back to the warm shell during network loss", 
     await expect(page.getByTestId("explorer")).toBeVisible({
       timeout: 20_000,
     });
+    // Request-level offline emulation does not reliably force
+    // `navigator.onLine` to false inside a service-worker-served document,
+    // so the indicator is asserted through the browser's own offline event
+    // contract that the application subscribes to.
+    await page.evaluate(() => {
+      Object.defineProperty(navigator, "onLine", {
+        configurable: true,
+        get: () => false,
+      });
+      window.dispatchEvent(new Event("offline"));
+    });
     await expect(page.locator(".network-status")).toContainText("Offline");
   } finally {
     await context.setOffline(false);

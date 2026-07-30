@@ -160,12 +160,16 @@ disables animations, and allows a maximum 8% changed-pixel ratio. The suite
 does not yet cover every major route or a
 deterministic cross-GPU 3D-scene matrix.
 
-Baseline creation/update is an explicit reviewed action:
+Baselines are canonical to the CI environment (Linux Chromium). Font
+rasterisation and metrics differ across operating systems, so screenshots
+captured on Windows or macOS will not match and must not be committed as
+baselines. To update a baseline: push the change, download the CI run's
+Playwright artifact, review the `-actual.png` images, and commit the
+reviewed CI-rendered images as the new baselines.
 
-```bash
-npm run build
-npm run test:visual -- --update-snapshots
-```
+A local regeneration (`npm run build && npm run test:visual --
+--update-snapshots`) is useful for previewing a change but is only a valid
+baseline source on a matching Linux environment.
 
 Do not auto-accept a changed baseline in CI.
 
