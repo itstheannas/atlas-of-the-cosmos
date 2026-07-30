@@ -10,7 +10,7 @@
     "catalogueOriginLabelling": "passed",
     "coordinateRanges": "passed",
     "explicitUnitsAndPassbands": "passed",
-    "previewAndDetailTileCompression": "passed",
+    "previewAndDetailTileIntegrity": "passed",
     "proceduralSeparation": "passed",
     "provenancePresence": "passed",
     "schemaValidation": "passed",

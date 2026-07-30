@@ -1,4 +1,3 @@
-import { gzipSync } from "node:zlib";
 import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { sha256Bytes } from "./integrity.mjs";
@@ -97,13 +96,18 @@ export async function writeTileSet(outputRoot, objects, level, representation) {
       tile: group.address,
       records,
     };
+    // Tiles are stored as canonical uncompressed JSON so the committed
+    // artifacts are byte-reproducible on any machine. Compressed output is
+    // deliberately avoided: zlib builds emit different, equally valid bytes
+    // across Node releases and CPU feature sets, which breaks the
+    // regenerate-and-compare determinism gate. Transport compression is a
+    // delivery concern owned by the host.
     const bytes = Buffer.from(stableStringify(payload), "utf8");
-    const compressed = gzipSync(bytes, { level: 9, mtime: 0 });
     const relativePath = join(
       representation,
       `L${level}`,
       `x${group.address.x}`,
-      `y${group.address.y}.json.gz`,
+      `y${group.address.y}.json`,
     );
     const absolutePath = join(outputRoot, relativePath);
     await mkdir(
@@ -112,14 +116,12 @@ export async function writeTileSet(outputRoot, objects, level, representation) {
         recursive: true,
       },
     );
-    await writeFile(absolutePath, compressed);
+    await writeFile(absolutePath, bytes);
     artefacts.push({
       path: relativePath.replaceAll("\\", "/"),
       mediaType: "application/json",
-      contentEncoding: "gzip",
-      sha256: sha256Bytes(compressed),
-      compressedBytes: compressed.byteLength,
-      uncompressedBytes: bytes.byteLength,
+      sha256: sha256Bytes(bytes),
+      byteLength: bytes.byteLength,
       recordCount: records.length,
       tile: group.address,
     });

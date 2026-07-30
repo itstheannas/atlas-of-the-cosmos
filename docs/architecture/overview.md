@@ -133,7 +133,7 @@ depend on React or Three.js.
 `data/` contains the distributable sample, source manifests, immutable input
 excerpt, and derived preview/detail fixtures. `pipelines/` contains
 deterministic integrity, normalisation, validation, equal-angle spatial
-indexing, compression, and reporting utilities. A 64-point seeded procedural
+indexing and reporting utilities. A 64-point seeded procedural
 context fixture is separate from the four-record OpenNGC excerpt.
 
 The broader UI catalogue in `lib/cosmos-data.ts` is a curated editorial layer

@@ -15,7 +15,9 @@ astronomical catalogue, or provide precision ephemerides.
 
 ## Quick start
 
-Prerequisite: Node.js `>=22.13.0`.
+Prerequisite: Node.js `>=22.13.0`; [`.nvmrc`](.nvmrc) records the pinned
+version used for CI and for regenerating the committed `data/derived`
+artifacts.
 
 ```bash
 npm ci

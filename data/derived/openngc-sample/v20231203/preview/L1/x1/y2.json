@@ -1,0 +1,48 @@
+{
+  "dataOrigin": "catalogue",
+  "records": [
+    {
+      "apparentMagnitude": {
+        "caveat": "Measurement uncertainty is unavailable in this source excerpt.",
+        "method": "OpenNGC V-Mag field",
+        "passband": "V",
+        "quantity": {
+          "unit": "mag",
+          "value": 8.4
+        },
+        "status": "observed"
+      },
+      "coordinate": {
+        "declination": {
+          "unit": "deg",
+          "value": 22.01447222222222
+        },
+        "epoch": {
+          "scale": "Julian-year",
+          "value": 2000
+        },
+        "frame": "ICRS",
+        "kind": "equatorial",
+        "origin": "solar-system-barycentre",
+        "rightAscension": {
+          "unit": "deg",
+          "value": 83.63320833333333
+        }
+      },
+      "dataOrigin": "catalogue",
+      "id": "openngc:ngc1952",
+      "objectType": "supernova-remnant",
+      "primaryName": "Crab Nebula",
+      "sourceCatalogue": "OpenNGC"
+    }
+  ],
+  "representation": "preview",
+  "schemaVersion": "1.0.0",
+  "tile": {
+    "key": "L1/x1/y2",
+    "level": 1,
+    "scheme": "equal-angle-equatorial-j2000",
+    "x": 1,
+    "y": 2
+  }
+}
