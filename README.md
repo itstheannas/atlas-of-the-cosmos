@@ -218,7 +218,7 @@ records what is met, partial, inactive by design, or externally blocked.
 ## Documented performance boundary
 
 The final recorded local build placed the route-split `CosmosScene` client
-chunk at 597,549 bytes (about 583.5 KiB) minified, above the build tool's
+chunk at 600,605 bytes (about 586.5 KiB) minified, above the build tool's
 default 500 KiB warning threshold. The renderer is loaded only by
 explorer/tour views. The warning and the missing production-scale
 spatial-streaming path remain documented work rather than hidden release

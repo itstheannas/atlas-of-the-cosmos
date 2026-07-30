@@ -21,7 +21,13 @@
  */
 
 export type SurfaceStyle =
-  "star" | "rocky" | "cloud-veiled" | "gas-giant" | "ice-giant" | "icy-moon";
+  | "star"
+  | "rocky"
+  | "ocean-world"
+  | "cloud-veiled"
+  | "gas-giant"
+  | "ice-giant"
+  | "icy-moon";
 
 export interface SurfacePalette {
   /** Deepest/lowest albedo tone. */
@@ -139,7 +145,7 @@ export const planetaryAppearances: readonly PlanetaryAppearance[] = [
     equatorialRadiusKm: 6_378.1,
     obliquityDeg: 23.44,
     rotationPeriodHours: 23.93,
-    style: "rocky",
+    style: "ocean-world",
     palette: {
       low: "#12447e",
       mid: "#1f6bb0",
@@ -390,13 +396,18 @@ export const EARTH_RADIUS_KM = 6_378.1;
 /**
  * Relative visual radius, expressed in Earth radii after compression.
  *
- * True radii span roughly 1,500:1 across these bodies, which would render the
- * smaller ones as sub-pixel specks beside the Sun. A power curve preserves the
- * size *ordering* and keeps large bodies visibly larger while holding the whole
- * set legible in one view. The result is deliberately not to scale, and the
- * interface must continue to say so.
+ * True radii span roughly 1,480:1 across these bodies, which would render the
+ * smaller ones as sub-pixel specks beside the Sun. A square-root curve
+ * preserves the size *ordering* and keeps the hierarchy obvious — the Sun
+ * still reads as an order of magnitude larger than Earth, and gas giants
+ * clearly dwarf terrestrial worlds — while holding the whole set legible in
+ * one view. The result is deliberately not to scale, and the interface must
+ * continue to say so.
+ *
+ * A gentler exponent was tried first and flattened the hierarchy so far that
+ * every body looked interchangeable, which defeated the purpose.
  */
-export const VISUAL_RADIUS_COMPRESSION = 0.32;
+export const VISUAL_RADIUS_COMPRESSION = 0.5;
 
 export function compressedVisualRadius(equatorialRadiusKm: number): number {
   if (!Number.isFinite(equatorialRadiusKm) || equatorialRadiusKm <= 0) {

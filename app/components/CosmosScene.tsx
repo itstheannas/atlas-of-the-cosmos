@@ -26,6 +26,7 @@ import { formatUiMessage, type UiCopy } from "../../lib/i18n";
 import {
   createPlanetaryBodies,
   disposePlanetaryBodies,
+  framingDistanceForRadius,
   setPlanetaryBodySelection,
   updatePlanetaryBodies,
 } from "./scene/planetary-bodies";
@@ -319,7 +320,9 @@ const QUALITY_PROFILES: Readonly<
 
 const SCALE_SPACING = 27;
 const FLOATING_ORIGIN_THRESHOLD = 48;
-const MIN_CAMERA_DISTANCE = 0.45;
+// Small bodies must be approachable closely enough to fill the frame; the
+// camera near plane is far tighter than this, so it stays safe.
+const MIN_CAMERA_DISTANCE = 0.22;
 const MAX_CAMERA_DISTANCE = 115;
 const DEFAULT_FLIGHT_DURATION_MS = 1_850;
 const GOLDEN_ANGLE = Math.PI * (3 - Math.sqrt(5));
@@ -1107,10 +1110,24 @@ function createSceneRuntime(options: RuntimeOptions): SceneRuntime {
   // terminators. Everything else stays in the batched layers below.
   const planetaryBodies = createPlanetaryBodies(objects, {
     sphereDetail: quality.sphereDetail,
-    earthVisualRadius: 0.14,
+    // Sized so the Sun sits comfortably inside the innermost orbit guide
+    // while Earth stays clearly larger than the batched markers.
+    earthVisualRadius: 0.1,
   });
   if (planetaryBodies) {
     worldRoot.add(planetaryBodies.group);
+    // The opening view is set before the bodies exist, so reframe it once
+    // their drawn sizes are known; otherwise Earth opens as a speck.
+    const initialRadius = initialObject
+      ? planetaryBodies.visualRadiusById.get(initialObject.id)
+      : undefined;
+    if (initialRadius !== undefined) {
+      const distance = framingDistanceForRadius(initialRadius);
+      camera.position
+        .copy(target)
+        .add(new THREE.Vector3(0, distance * 0.26, distance));
+      camera.lookAt(target);
+    }
   }
   const detailedIds: ReadonlySet<string> =
     planetaryBodies?.renderedIds ?? new Set<string>();
@@ -1621,7 +1638,13 @@ function createSceneRuntime(options: RuntimeOptions): SceneRuntime {
       }
       direction.normalize();
     }
-    const suggestedDistance = clamp(4.6 * object.visualScale + 2.8, 4.2, 13);
+    // Individually rendered bodies are framed against their real drawn size;
+    // batched markers keep the size-independent heuristic.
+    const detailedRadius = planetaryBodies?.visualRadiusById.get(object.id);
+    const suggestedDistance =
+      detailedRadius !== undefined
+        ? framingDistanceForRadius(detailedRadius)
+        : clamp(4.6 * object.visualScale + 2.8, 4.2, 13);
     const requestedCameraDistance =
       request.cameraDistance !== undefined &&
       Number.isFinite(request.cameraDistance) &&

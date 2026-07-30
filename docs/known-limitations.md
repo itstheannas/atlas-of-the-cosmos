@@ -60,7 +60,7 @@ has been verified.
   mode. The semantic fallback is more portable than the 3D fidelity.
 - There is no WebGPU or VR renderer. Standard-gamepad polling is implemented,
   but no broad controller/device compatibility guarantee has been recorded.
-- The last recorded clean build produced a 597,549-byte (about 583.5 KiB)
+- The last recorded clean build produced a 600,605-byte (about 586.5 KiB)
   route-split
   `CosmosScene` client chunk, above the build tool's default 500 KiB warning
   threshold. Dynamic loading keeps it out of non-renderer route entry code,

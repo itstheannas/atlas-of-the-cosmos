@@ -87,7 +87,7 @@ Add and measure those before claiming large-catalogue scale.
 Three.js is expected to be a material client dependency. Keep it within the
 client renderer boundary so content routes do not accidentally duplicate it.
 The recorded clean production build emitted a dynamically loaded
-`CosmosScene` chunk of 597,549 bytes (about 583.5 KiB) minified, above the build tool's default
+`CosmosScene` chunk of 600,605 bytes (about 586.5 KiB) minified, above the build tool's default
 500 KiB warning threshold. Filenames, hashes, and sizes change by build, so
 every release must record its own value rather than silently carrying this one
 forward as a budget.
