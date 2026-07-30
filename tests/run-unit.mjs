@@ -10,6 +10,7 @@ import "./unit/coordinate-engine.test.mjs";
 import "./unit/educational-time-model.test.mjs";
 import "./unit/i18n.test.mjs";
 import "./unit/pipeline.test.mjs";
+import "./unit/renderer-material-invariants.test.mjs";
 import "./unit/scientific-provenance.test.mjs";
 import "./unit/server-observability.test.mjs";
 import "./unit/tour-camera-directive.test.mjs";
