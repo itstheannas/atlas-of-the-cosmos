@@ -144,13 +144,18 @@ test("visual radius compression preserves ordering while bounding the range", ()
   const ceres = compressedVisualRadius(469.7);
 
   assert.ok(sun > jupiter && jupiter > earth && earth > ceres);
-  // True radii span about 1,480:1; the compressed range must stay legible.
+  // True radii span about 1,480:1. The compressed range must stay legible
+  // without flattening the hierarchy into interchangeable balls.
   assert.ok(
-    sun / ceres < 15,
+    sun / ceres < 80,
     "compression must keep the smallest body visible beside the Sun",
   );
   assert.ok(
-    jupiter > earth * 1.5,
+    sun > earth * 8,
+    "the Sun must still read as dramatically larger than a planet",
+  );
+  assert.ok(
+    jupiter > earth * 2.5,
     "a gas giant must still read as clearly larger than Earth",
   );
 

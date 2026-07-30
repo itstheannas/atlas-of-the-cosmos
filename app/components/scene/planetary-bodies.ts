@@ -60,6 +60,16 @@ float atlasFbm(vec3 p) {
 float atlasRidged(vec3 p) {
   return 1.0 - abs(atlasFbm(p) * 2.0 - 1.0);
 }
+
+/**
+ * Five-octave value noise clusters tightly around 0.5, so raw thresholds clip
+ * almost all of the pattern away. This expands a chosen band of the
+ * distribution back across the full 0-1 range so surface features are actually
+ * visible.
+ */
+float atlasContrast(float value, float centre, float width) {
+  return clamp((value - centre) / max(width, 0.0001) + 0.5, 0.0, 1.0);
+}
 `;
 
 const SURFACE_VERTEX_SHADER = /* glsl */ `
@@ -120,52 +130,102 @@ void main() {
   albedo *= mix(0.55, 1.0, limb);
 #elif defined(STYLE_GAS_GIANT) || defined(STYLE_ICE_GIANT)
   #if defined(STYLE_GAS_GIANT)
-    float bandCount = 15.0;
-    float turbulence = 0.34;
-    float zoneSharpness = 0.55;
+    float primaryBands = 26.0;
+    float secondaryBands = 11.0;
+    float warpAmount = 0.055;
+    float streakStrength = 0.32;
   #else
-    float bandCount = 7.0;
-    float turbulence = 0.16;
-    float zoneSharpness = 0.3;
+    float primaryBands = 13.0;
+    float secondaryBands = 6.0;
+    float warpAmount = 0.03;
+    float streakStrength = 0.14;
   #endif
-  // Flow distorts the band boundaries so they are not perfect stripes.
-  float flow = atlasFbm(vec3(dir.x * 2.2, dir.y * 5.5, dir.z * 2.2)) * turbulence;
-  float bands = sin((latitude + flow * 0.35) * bandCount);
-  float banding = smoothstep(-zoneSharpness, zoneSharpness, bands);
-  albedo = mix(uLow, uMid, banding);
-  albedo = mix(albedo, uHigh, smoothstep(0.45, 1.0, banding) * 0.7);
-  float detail = atlasFbm(vec3(dir.x * 6.0, dir.y * 14.0, dir.z * 6.0));
-  albedo = mix(albedo, uHigh, smoothstep(0.55, 0.85, detail) * 0.25);
+
+  // Domain-warp latitude so belt boundaries wander instead of ruling straight
+  // lines around the globe.
+  float warp = atlasFbm(vec3(dir.x * 3.0, dir.y * 6.0, dir.z * 3.0)) - 0.5;
+  float bandLatitude = latitude + warp * warpAmount;
+
+  // Two incommensurate harmonics give belts of uneven width, as observed.
+  float primary = sin(bandLatitude * primaryBands) * 0.5 + 0.5;
+  float secondary = sin(bandLatitude * secondaryBands + 1.7) * 0.5 + 0.5;
+  float banding = clamp(mix(primary, secondary, 0.38), 0.0, 1.0);
+
+  albedo = mix(uLow, uMid, smoothstep(0.18, 0.82, banding));
+  albedo = mix(albedo, uHigh, smoothstep(0.62, 0.97, banding) * 0.85);
+
+  // Noise stretched along longitude reads as zonal flow rather than blobs.
+  float streaks = atlasContrast(
+    atlasFbm(vec3(dir.x * 2.4, dir.y * 34.0, dir.z * 2.4)), 0.5, 0.3);
+  albedo = mix(albedo, uHigh, streaks * streakStrength * banding);
+  albedo = mix(albedo, uLow, (1.0 - streaks) * streakStrength * (1.0 - banding));
+
   #if defined(FEATURE_STORM)
-    // A single long-lived oval, in the southern hemisphere like Jupiter's.
-    vec2 stormCentre = vec2(0.55, -0.32);
+    // One long-lived southern oval, elongated in longitude like the real spot.
+    vec2 stormCentre = vec2(0.35, -0.28);
     vec2 stormPosition = vec2(atan(dir.z, dir.x) / 3.14159265, latitude);
     vec2 delta = stormPosition - stormCentre;
-    delta.x *= 2.1;
-    float storm = 1.0 - smoothstep(0.05, 0.16, length(delta));
-    albedo = mix(albedo, uAccent, storm * 0.85);
+    delta.x = delta.x - 2.0 * floor(delta.x * 0.5 + 0.5);
+    delta.x *= 0.55;
+    float stormDistance = length(delta);
+    float storm = 1.0 - smoothstep(0.06, 0.15, stormDistance);
+    float curl = atlasFbm(vec3(dir * 18.0)) * 0.35;
+    albedo = mix(albedo, uAccent, storm * (0.75 + curl));
+    albedo = mix(albedo, uHigh,
+      smoothstep(0.13, 0.17, stormDistance) * storm * 0.4);
   #endif
+#elif defined(STYLE_OCEAN)
+  // Continents: a warped noise field thresholded into a crisp coastline.
+  vec3 continentCoords = dir * 2.6 + 11.0;
+  float continent = atlasContrast(
+    atlasFbm(continentCoords + atlasFbm(continentCoords * 1.8) * 0.5),
+    0.5, 0.17);
+  float land = smoothstep(0.5, 0.58, continent);
+
+  albedo = mix(uLow, uMid, smoothstep(0.12, 0.5, continent));
+  albedo = mix(albedo, uHigh, land);
+  // Vegetation versus arid ground on the land masses.
+  float landCover = atlasContrast(atlasFbm(dir * 6.5 + 3.0), 0.5, 0.26);
+  albedo = mix(albedo, uHigh * 1.45, land * smoothstep(0.55, 0.9, landCover) * 0.55);
+  albedo = mix(albedo, uHigh * 0.62, land * smoothstep(0.45, 0.1, landCover) * 0.45);
+
+  // Polar ice, then weather on top of everything.
+  albedo = mix(albedo, uAccent, smoothstep(0.74, 0.9, abs(latitude)));
+  float clouds = atlasContrast(
+    atlasFbm(vec3(dir.x * 3.2, dir.y * 5.4, dir.z * 3.2) + 30.0), 0.52, 0.22);
+  albedo = mix(albedo, vec3(1.0), smoothstep(0.55, 0.95, clouds) * 0.6);
 #elif defined(STYLE_CLOUD_VEILED)
+  // Slow, thick haze: heavily domain-warped so the veil swirls.
   vec3 swirl = vec3(dir.x * 2.4, dir.y * 4.2, dir.z * 2.4);
-  float haze = atlasFbm(swirl + atlasFbm(swirl * 1.7) * 0.6);
-  albedo = mix(uLow, uMid, smoothstep(0.28, 0.72, haze));
-  albedo = mix(albedo, uHigh, smoothstep(0.62, 0.95, haze) * 0.6);
+  float haze = atlasContrast(
+    atlasFbm(swirl + atlasFbm(swirl * 1.7) * 0.85), 0.5, 0.2);
+  albedo = mix(uLow, uMid, haze);
+  albedo = mix(albedo, uHigh, smoothstep(0.62, 0.98, haze) * 0.75);
+  float veil = atlasContrast(
+    atlasFbm(vec3(dir.x * 1.6, dir.y * 9.0, dir.z * 1.6)), 0.5, 0.28);
+  albedo = mix(albedo, uHigh, veil * 0.22);
 #elif defined(STYLE_ICY_MOON)
-  albedo = mix(uMid, uHigh, smoothstep(0.35, 0.75, atlasFbm(dir * 5.5)));
-  // Long linear fractures.
+  float iceBase = atlasContrast(atlasFbm(dir * 5.5), 0.5, 0.26);
+  albedo = mix(uMid, uHigh, iceBase);
+  // Long linear fractures crossing the crust.
   float cracks = atlasRidged(vec3(dir.x * 3.4, dir.y * 9.0, dir.z * 3.4));
-  albedo = mix(albedo, uAccent, smoothstep(0.82, 0.99, cracks) * 0.7);
-  albedo = mix(albedo, uLow, smoothstep(0.6, 0.9, atlasFbm(dir * 12.0)) * 0.2);
+  albedo = mix(albedo, uAccent, smoothstep(0.74, 0.97, cracks) * 0.8);
+  float secondaryCracks = atlasRidged(vec3(dir.z * 7.0, dir.x * 4.0, dir.y * 5.0));
+  albedo = mix(albedo, uAccent, smoothstep(0.86, 0.99, secondaryCracks) * 0.45);
+  albedo = mix(albedo, uLow, smoothstep(0.7, 0.95, atlasFbm(dir * 12.0)) * 0.25);
 #else
-  // Rocky bodies: broad terrain variation plus crater-like ridges.
-  float terrain = atlasFbm(dir * 3.4);
-  float detail = atlasFbm(dir * 11.0);
-  albedo = mix(uLow, uMid, smoothstep(0.3, 0.7, terrain));
-  albedo = mix(albedo, uHigh, smoothstep(0.52, 0.85, terrain * 0.7 + detail * 0.3));
-  albedo = mix(albedo, uLow, smoothstep(0.75, 0.95, atlasRidged(dir * 8.0)) * 0.35);
+  // Airless rocky bodies: broad terrain, basins, and crater-like ridges.
+  float terrain = atlasContrast(atlasFbm(dir * 3.4), 0.5, 0.22);
+  float detail = atlasContrast(atlasFbm(dir * 9.0), 0.5, 0.3);
+  albedo = mix(uLow, uMid, terrain);
+  albedo = mix(albedo, uHigh, smoothstep(0.55, 0.95, terrain * 0.65 + detail * 0.35));
+  // Dark basins.
+  albedo = mix(albedo, uLow, smoothstep(0.62, 0.16, terrain) * 0.5);
+  // Bright crater rims and rays.
+  float craters = atlasRidged(dir * 8.0);
+  albedo = mix(albedo, uHigh, smoothstep(0.86, 0.995, craters) * 0.5);
   #if defined(FEATURE_POLAR_CAPS)
-    float caps = smoothstep(0.78, 0.93, abs(latitude));
-    albedo = mix(albedo, uAccent, caps * 0.9);
+    albedo = mix(albedo, uAccent, smoothstep(0.8, 0.94, abs(latitude)) * 0.9);
   #endif
 #endif
 
@@ -261,6 +321,7 @@ void main() {
 const STYLE_DEFINES: Record<string, string> = {
   star: "STYLE_STAR",
   rocky: "STYLE_ROCKY",
+  "ocean-world": "STYLE_OCEAN",
   "cloud-veiled": "STYLE_CLOUD_VEILED",
   "gas-giant": "STYLE_GAS_GIANT",
   "ice-giant": "STYLE_ICE_GIANT",
@@ -269,7 +330,8 @@ const STYLE_DEFINES: Record<string, string> = {
 
 /** Bodies whose depiction includes a named surface feature. */
 const STORM_BODIES = new Set(["jupiter"]);
-const POLAR_CAP_BODIES = new Set(["mars", "earth"]);
+// The ocean-world style draws its own ice caps, so Earth is not listed here.
+const POLAR_CAP_BODIES = new Set(["mars"]);
 
 function colourUniforms(palette: SurfacePalette) {
   return {
@@ -316,6 +378,21 @@ export interface PlanetaryBodySet {
   readonly pickTargets: readonly THREE.Object3D[];
   /** Object ids that this module renders and the batch layer must skip. */
   readonly renderedIds: ReadonlySet<string>;
+  /** Scene-unit radius per rendered body, for camera framing. */
+  readonly visualRadiusById: ReadonlyMap<string, number>;
+}
+
+/**
+ * Camera distance that frames a body of the given visual radius.
+ *
+ * The scene camera has a 48-degree vertical field of view, so this places the
+ * body's limb at roughly 40% of the view height: close enough that a selected
+ * world reads as a world rather than a speck, far enough to keep its rings and
+ * terminator in frame. Without this, travel used a size-independent distance
+ * and Earth arrived on screen barely larger than a point.
+ */
+export function framingDistanceForRadius(radius: number): number {
+  return radius * 5.5;
 }
 
 function createGlowTexture(): THREE.Texture {
@@ -374,6 +451,7 @@ export function createPlanetaryBodies(
   const bodies: PlanetaryBody[] = [];
   const pickTargets: THREE.Object3D[] = [];
   const renderedIds = new Set<string>();
+  const visualRadiusById = new Map<string, number>();
 
   for (const object of objects) {
     const appearance = planetaryAppearanceFor(object.id);
@@ -495,6 +573,7 @@ export function createPlanetaryBodies(
 
     group.add(bodyGroup);
     renderedIds.add(object.id);
+    visualRadiusById.set(object.id, visualRadius);
     bodies.push({
       objectId: object.id,
       appearance,
@@ -518,7 +597,7 @@ export function createPlanetaryBodies(
     return null;
   }
 
-  return { group, bodies, pickTargets, renderedIds };
+  return { group, bodies, pickTargets, renderedIds, visualRadiusById };
 }
 
 const SUN_WORLD_POSITION = new THREE.Vector3();
