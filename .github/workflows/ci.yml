@@ -28,7 +28,11 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
         with:
-          node-version: 22.19.0
+          # Must match .nvmrc. The committed data/derived artifacts are
+          # byte-reproducible only under one pinned toolchain: compressed
+          # tile bytes vary across Node/zlib releases, so regenerating on a
+          # different Node version fails the generated-data verification.
+          node-version-file: .nvmrc
           cache: npm
 
       - name: Install locked dependencies
