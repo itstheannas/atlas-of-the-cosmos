@@ -23,6 +23,12 @@ import {
 } from "../../lib/client-observability";
 import { applyEducationalOrbitModel } from "../../lib/educational-time-model";
 import { formatUiMessage, type UiCopy } from "../../lib/i18n";
+import {
+  createPlanetaryBodies,
+  disposePlanetaryBodies,
+  setPlanetaryBodySelection,
+  updatePlanetaryBodies,
+} from "./scene/planetary-bodies";
 
 /**
  * Automatic is resolved once when the renderer is created. Scientific keeps
@@ -1096,8 +1102,22 @@ function createSceneRuntime(options: RuntimeOptions): SceneRuntime {
   keyLight.name = "marker key light";
   scene.add(keyLight);
 
+  // Named Solar System bodies are few enough to render individually, which is
+  // what allows real surface character, rings, axial tilt, and Sun-driven
+  // terminators. Everything else stays in the batched layers below.
+  const planetaryBodies = createPlanetaryBodies(objects, {
+    sphereDetail: quality.sphereDetail,
+    earthVisualRadius: 0.14,
+  });
+  if (planetaryBodies) {
+    worldRoot.add(planetaryBodies.group);
+  }
+  const detailedIds: ReadonlySet<string> =
+    planetaryBodies?.renderedIds ?? new Set<string>();
+
   const pointObjects = objects.filter(
-    (object) => object.markerKind === "catalogue-point",
+    (object) =>
+      object.markerKind === "catalogue-point" && !detailedIds.has(object.id),
   );
   const pointBatch = createCataloguePointBatch(
     pointObjects,
@@ -1116,7 +1136,9 @@ function createSceneRuntime(options: RuntimeOptions): SceneRuntime {
     .map((kind) =>
       createMarkerBatch(
         kind,
-        objects.filter((object) => object.markerKind === kind),
+        objects.filter(
+          (object) => object.markerKind === kind && !detailedIds.has(object.id),
+        ),
         quality,
       ),
     )
@@ -1146,6 +1168,7 @@ function createSceneRuntime(options: RuntimeOptions): SceneRuntime {
   const pickableObjects: THREE.Object3D[] = [
     ...(pointBatch ? [pointBatch.points] : []),
     ...markerBatches.map((batch) => batch.mesh),
+    ...(planetaryBodies ? planetaryBodies.pickTargets : []),
   ];
   let selectedId: string | null = initialObject?.id ?? null;
   let hoveredId: string | null = null;
@@ -1160,6 +1183,7 @@ function createSceneRuntime(options: RuntimeOptions): SceneRuntime {
   let contextLost = false;
   let contextFailureTimer = 0;
   let previousFrameTime = performance.now();
+  let bodySpinSeconds = 0;
   let diagnosticWindowStarted = previousFrameTime;
   let diagnosticFrameCount = 0;
   let diagnosticFrameDurationMs = 0;
@@ -1264,6 +1288,10 @@ function createSceneRuntime(options: RuntimeOptions): SceneRuntime {
         batch.mesh.instanceColor.needsUpdate = true;
       }
     });
+
+    if (planetaryBodies) {
+      setPlanetaryBodySelection(planetaryBodies, selectedId);
+    }
 
     if (pointBatch) {
       pointBatch.objects.forEach((object, index) => {
@@ -1516,6 +1544,14 @@ function createSceneRuntime(options: RuntimeOptions): SceneRuntime {
     };
     const intersections = raycaster.intersectObjects(pickableObjects, false);
     for (const intersection of intersections) {
+      const userData = intersection.object.userData as Record<string, unknown>;
+      const detailedId = userData.objectId;
+      if (typeof detailedId === "string") {
+        const detailed = objectById.get(detailedId);
+        if (detailed) {
+          return detailed;
+        }
+      }
       if (pointBatch && intersection.object === pointBatch.points) {
         const index = intersection.index;
         if (index !== undefined) {
@@ -1878,6 +1914,15 @@ function createSceneRuntime(options: RuntimeOptions): SceneRuntime {
     updateFlight(now);
     rebaseFloatingOrigin();
     proceduralBackground.position.copy(camera.position);
+
+    if (planetaryBodies) {
+      // Reduced motion holds the bodies still; the lighting update still runs
+      // so terminators stay correct after travel.
+      if (!reducedMotion) {
+        bodySpinSeconds += deltaSeconds;
+      }
+      updatePlanetaryBodies(planetaryBodies, bodySpinSeconds);
+    }
 
     if (pendingHoverPoint && activePointers.size === 0) {
       const object = pickObject(pendingHoverPoint.x, pendingHoverPoint.y);
@@ -2254,6 +2299,9 @@ function createSceneRuntime(options: RuntimeOptions): SceneRuntime {
       keysDown.clear();
       gamepadNavigationActive = false;
       labelElement.style.opacity = "0";
+      if (planetaryBodies) {
+        disposePlanetaryBodies(planetaryBodies);
+      }
       disposeScene(scene);
       renderer.renderLists.dispose();
       renderer.dispose();

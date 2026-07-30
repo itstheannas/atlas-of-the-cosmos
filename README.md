@@ -55,6 +55,9 @@ Worker, runs the desktop/mobile browser suite, and generates an SBOM.
 - a WebGL 2 Three.js scene with selectable labelled objects, batched
   catalogue/procedural rendering, a bounded floating-origin rebase,
   logarithmic depth, quality modes, and context-loss fallback;
+- individually shaded Solar System bodies with procedural surfaces, ring
+  systems, axial tilt, atmospheric limb glow, and Sun-driven day/night
+  terminators, drawn entirely in code from cited physical parameters;
 - local catalogue search and object details with source/provenance status;
 - seven data-driven tours (57 chapters) with transcripts and controllable,
   interruptible playback, deep-linked chapters, and device-local progress;
@@ -75,7 +78,12 @@ Worker, runs the desktop/mobile browser suite, and generates an SBOM.
 
 Visual positions, sizes, colour, glow, orbit guides, and time animation may be
 compressed, schematic, or illustrative. The interface and data model
-distinguish those encodings from catalogue-backed facts.
+distinguish those encodings from catalogue-backed facts. Planetary surfaces
+and rings are drawn mathematically from the cited measurements in
+[`lib/planetary-appearance.ts`](lib/planetary-appearance.ts) and from
+hand-matched impressions of published NASA/ESA imagery; no photograph or
+texture is bundled, and no rendered surface is an observation. See
+[imagery attribution](docs/data-sources/imagery-attribution.md).
 
 ## Architecture
 
@@ -210,7 +218,7 @@ records what is met, partial, inactive by design, or externally blocked.
 ## Documented performance boundary
 
 The final recorded local build placed the route-split `CosmosScene` client
-chunk at 570,075 bytes (about 556.7 KiB) minified, above the build tool's
+chunk at 597,549 bytes (about 583.5 KiB) minified, above the build tool's
 default 500 KiB warning threshold. The renderer is loaded only by
 explorer/tour views. The warning and the missing production-scale
 spatial-streaming path remain documented work rather than hidden release
