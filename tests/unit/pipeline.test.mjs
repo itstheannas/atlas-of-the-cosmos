@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
-import { gunzipSync } from "node:zlib";
+import { createHash } from "node:crypto";
 import test from "node:test";
 
 import { sha256File } from "../../pipelines/lib/integrity.mjs";
@@ -69,22 +69,27 @@ test("validation report records scientific and layer-separation checks", async (
   assert.equal(report.status, "passed");
   assert.equal(report.checks.explicitUnitsAndPassbands, "passed");
   assert.equal(report.checks.proceduralSeparation, "passed");
-  assert.equal(report.checks.previewAndDetailTileCompression, "passed");
+  assert.equal(report.checks.previewAndDetailTileIntegrity, "passed");
   assert.deepEqual(report.rejectedRecords, []);
 });
 
-test("generated tiles are compressed, catalogue-labelled, and indexed", async () => {
+test("generated tiles are canonical, catalogue-labelled, and indexed", async () => {
   const index = await readJson(
     "data/derived/openngc-sample/v20231203/tile-index.json",
   );
   assert.match(index.schemeLimitations[0], /not HEALPix/);
   const artefact = index.previewTiles[0];
   assert.equal(artefact.mediaType, "application/json");
-  assert.equal(artefact.contentEncoding, "gzip");
-  const compressed = await readFile(
+  const bytes = await readFile(
     new URL(`data/derived/openngc-sample/v20231203/${artefact.path}`, root),
   );
-  const tile = JSON.parse(gunzipSync(compressed).toString("utf8"));
+  assert.equal(
+    createHash("sha256").update(bytes).digest("hex"),
+    artefact.sha256,
+    "the tile index records the exact bytes of each committed tile",
+  );
+  assert.equal(bytes.byteLength, artefact.byteLength);
+  const tile = JSON.parse(bytes.toString("utf8"));
   assert.equal(tile.dataOrigin, "catalogue");
   assert.equal(tile.representation, "preview");
   assert.ok(tile.records.every((record) => record.dataOrigin === "catalogue"));

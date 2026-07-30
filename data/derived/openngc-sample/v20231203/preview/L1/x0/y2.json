@@ -1,0 +1,48 @@
+{
+  "dataOrigin": "catalogue",
+  "records": [
+    {
+      "apparentMagnitude": {
+        "caveat": "Measurement uncertainty is unavailable in this source excerpt.",
+        "method": "OpenNGC V-Mag field",
+        "passband": "V",
+        "quantity": {
+          "unit": "mag",
+          "value": 3.44
+        },
+        "status": "observed"
+      },
+      "coordinate": {
+        "declination": {
+          "unit": "deg",
+          "value": 41.26905555555555
+        },
+        "epoch": {
+          "scale": "Julian-year",
+          "value": 2000
+        },
+        "frame": "ICRS",
+        "kind": "equatorial",
+        "origin": "solar-system-barycentre",
+        "rightAscension": {
+          "unit": "deg",
+          "value": 10.684791666666666
+        }
+      },
+      "dataOrigin": "catalogue",
+      "id": "openngc:ngc0224",
+      "objectType": "galaxy",
+      "primaryName": "Andromeda Galaxy",
+      "sourceCatalogue": "OpenNGC"
+    }
+  ],
+  "representation": "preview",
+  "schemaVersion": "1.0.0",
+  "tile": {
+    "key": "L1/x0/y2",
+    "level": 1,
+    "scheme": "equal-angle-equatorial-j2000",
+    "x": 0,
+    "y": 2
+  }
+}

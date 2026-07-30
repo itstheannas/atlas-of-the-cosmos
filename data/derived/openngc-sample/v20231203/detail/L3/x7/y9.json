@@ -1,0 +1,98 @@
+{
+  "dataOrigin": "catalogue",
+  "records": [
+    {
+      "catalogueIdentifiers": [
+        {
+          "canonical": true,
+          "catalogue": "OpenNGC",
+          "value": "NGC1952"
+        },
+        {
+          "canonical": false,
+          "catalogue": "Messier",
+          "value": "M 1"
+        }
+      ],
+      "constellation": {
+        "abbreviation": "Tau",
+        "name": "Taurus"
+      },
+      "coordinate": {
+        "declination": {
+          "unit": "deg",
+          "value": 22.01447222222222
+        },
+        "epoch": {
+          "scale": "Julian-year",
+          "value": 2000
+        },
+        "frame": "ICRS",
+        "kind": "equatorial",
+        "origin": "solar-system-barycentre",
+        "rightAscension": {
+          "unit": "deg",
+          "value": 83.63320833333333
+        }
+      },
+      "dataOrigin": "catalogue",
+      "id": "openngc:ngc1952",
+      "names": {
+        "common": [],
+        "primary": "Crab Nebula"
+      },
+      "objectType": "supernova-remnant",
+      "properties": {
+        "apparentMagnitude": {
+          "caveat": "Measurement uncertainty is unavailable in this source excerpt.",
+          "method": "OpenNGC V-Mag field",
+          "passband": "V",
+          "quantity": {
+            "unit": "mag",
+            "value": 8.4
+          },
+          "status": "observed"
+        }
+      },
+      "provenance": [
+        {
+          "accessedAt": "2026-07-29",
+          "attribution": "Contains data from OpenNGC, copyright OpenNGC contributors, licensed under CC BY-SA 4.0.",
+          "citation": "Mattia Verga and OpenNGC contributors, OpenNGC v20231203.",
+          "coordinateSystem": "OpenNGC J2000 equatorial position mapped to operational ICRS at Julian epoch 2000.0, limited to published source precision.",
+          "dataset": "OpenNGC",
+          "datasetVersion": "v20231203",
+          "knownLimitations": [
+            "This is a four-record excerpt and must not be described as the complete OpenNGC catalogue.",
+            "OpenNGC combines several upstream catalogues; its Sources column should be consulted for field-level origins.",
+            "The source identifies positions as J2000 but does not state a precise reference frame; the pipeline maps them to an operational ICRS J2000 frame only at the published source precision.",
+            "No uncertainty columns are present for the selected coordinates or magnitudes, so uncertainty is unavailable rather than assumed zero.",
+            "Redshift is heliocentric in OpenNGC and is preserved without converting it to distance.",
+            "Position is for the Crab pulsar."
+          ],
+          "licence": "CC-BY-SA-4.0",
+          "provider": "OpenNGC contributors",
+          "recordIdentifier": "NGC1952",
+          "sourceUrl": "https://raw.githubusercontent.com/mattiaverga/OpenNGC/v20231203/database_files/NGC.csv",
+          "transformations": [
+            "Parsed source sexagesimal coordinates into decimal degrees.",
+            "Mapped the OpenNGC type code to an Atlas object type; retained sourceClassification.",
+            "Normalised NGC and Messier identifiers without inventing identifiers.",
+            "Expanded the source IAU constellation abbreviation to its conventional name.",
+            "Preserved V magnitude and heliocentric redshift; did not infer distance."
+          ]
+        }
+      ],
+      "sourceClassification": "SNR"
+    }
+  ],
+  "representation": "detail",
+  "schemaVersion": "1.0.0",
+  "tile": {
+    "key": "L3/x7/y9",
+    "level": 3,
+    "scheme": "equal-angle-equatorial-j2000",
+    "x": 7,
+    "y": 9
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "dataOrigin": "catalogue",
+  "records": [
+    {
+      "apparentMagnitude": {
+        "caveat": "Measurement uncertainty is unavailable in this source excerpt.",
+        "method": "OpenNGC V-Mag field",
+        "passband": "V",
+        "quantity": {
+          "unit": "mag",
+          "value": 4
+        },
+        "status": "observed"
+      },
+      "coordinate": {
+        "declination": {
+          "unit": "deg",
+          "value": -5.389666666666667
+        },
+        "epoch": {
+          "scale": "Julian-year",
+          "value": 2000
+        },
+        "frame": "ICRS",
+        "kind": "equatorial",
+        "origin": "solar-system-barycentre",
+        "rightAscension": {
+          "unit": "deg",
+          "value": 83.81866666666666
+        }
+      },
+      "dataOrigin": "catalogue",
+      "id": "openngc:ngc1976",
+      "objectType": "nebula",
+      "primaryName": "Great Orion Nebula",
+      "sourceCatalogue": "OpenNGC"
+    }
+  ],
+  "representation": "preview",
+  "schemaVersion": "1.0.0",
+  "tile": {
+    "key": "L1/x1/y1",
+    "level": 1,
+    "scheme": "equal-angle-equatorial-j2000",
+    "x": 1,
+    "y": 1
+  }
+}

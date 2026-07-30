@@ -15,9 +15,9 @@ astronomical catalogue, or provide precision ephemerides.
 
 ## Quick start
 
-Prerequisite: Node.js `>=22.13.0`. Use the pinned version in
-[`.nvmrc`](.nvmrc) when regenerating `data/derived` artifacts: compressed
-tile bytes are reproducible only under a single pinned Node/zlib toolchain.
+Prerequisite: Node.js `>=22.13.0`; [`.nvmrc`](.nvmrc) records the pinned
+version used for CI and for regenerating the committed `data/derived`
+artifacts.
 
 ```bash
 npm ci

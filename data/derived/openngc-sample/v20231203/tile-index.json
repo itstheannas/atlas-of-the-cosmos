@@ -2,135 +2,119 @@
   "detailLevel": 3,
   "detailTiles": [
     {
-      "compressedBytes": 1433,
-      "contentEncoding": "gzip",
+      "byteLength": 3865,
       "mediaType": "application/json",
-      "path": "detail/L3/x0/y11.json.gz",
+      "path": "detail/L3/x0/y11.json",
       "recordCount": 1,
-      "sha256": "f5ef1c9c80904c64e65a75f047de51e16933a063b8e5d8d068a38c2efd1686cf",
+      "sha256": "4ab0489cc0eb3b354c12c78cb29e7f2d4cc7d32e09b669aa0fa8c2e20c1e63b9",
       "tile": {
         "key": "L3/x0/y11",
         "level": 3,
         "scheme": "equal-angle-equatorial-j2000",
         "x": 0,
         "y": 11
-      },
-      "uncompressedBytes": 3865
+      }
     },
     {
-      "compressedBytes": 1450,
-      "contentEncoding": "gzip",
+      "byteLength": 3889,
       "mediaType": "application/json",
-      "path": "detail/L3/x22/y11.json.gz",
+      "path": "detail/L3/x22/y11.json",
       "recordCount": 1,
-      "sha256": "50c1b55e2aa61eb29a7f4c395e627643be5ad8fadfd6f979b725f823ad3f2fb7",
+      "sha256": "3ff4c8720a3c481b60780fa5f523b03b121d0bb126b78b2c901232265ba35a6f",
       "tile": {
         "key": "L3/x22/y11",
         "level": 3,
         "scheme": "equal-angle-equatorial-j2000",
         "x": 22,
         "y": 11
-      },
-      "uncompressedBytes": 3889
+      }
     },
     {
-      "compressedBytes": 1441,
-      "contentEncoding": "gzip",
+      "byteLength": 3897,
       "mediaType": "application/json",
-      "path": "detail/L3/x7/y7.json.gz",
+      "path": "detail/L3/x7/y7.json",
       "recordCount": 1,
-      "sha256": "a19bd93e54c37fe153f2aa2959af6b0173376fc8ea3108d5d42f1fe15f92fda5",
+      "sha256": "af746fc15e6f4a2a6b77e1aa7a7410dfded81d4d265498965776c65e98f95b07",
       "tile": {
         "key": "L3/x7/y7",
         "level": 3,
         "scheme": "equal-angle-equatorial-j2000",
         "x": 7,
         "y": 7
-      },
-      "uncompressedBytes": 3897
+      }
     },
     {
-      "compressedBytes": 1404,
-      "contentEncoding": "gzip",
+      "byteLength": 3601,
       "mediaType": "application/json",
-      "path": "detail/L3/x7/y9.json.gz",
+      "path": "detail/L3/x7/y9.json",
       "recordCount": 1,
-      "sha256": "0283307c5bf971eeb36f2deef1c3459fd74e8a6eb546c0b3fa630541f42f3060",
+      "sha256": "b9be0174ffa5899f5c05f5ed2481e9e8b697d45b8a8919e6d4d1f666c59514bc",
       "tile": {
         "key": "L3/x7/y9",
         "level": 3,
         "scheme": "equal-angle-equatorial-j2000",
         "x": 7,
         "y": 9
-      },
-      "uncompressedBytes": 3601
+      }
     }
   ],
   "previewLevel": 1,
   "previewTiles": [
     {
-      "compressedBytes": 520,
-      "contentEncoding": "gzip",
+      "byteLength": 1135,
       "mediaType": "application/json",
-      "path": "preview/L1/x0/y2.json.gz",
+      "path": "preview/L1/x0/y2.json",
       "recordCount": 1,
-      "sha256": "6cc8fcbe64c04e712c2ce85178b404e6eab17ceb9b9d99dd2bfca7b9a8235715",
+      "sha256": "3ae69bc0b585ff368671cc01ea2b8c77c71c3f1861724cad647b11ab558cbd7e",
       "tile": {
         "key": "L1/x0/y2",
         "level": 1,
         "scheme": "equal-angle-equatorial-j2000",
         "x": 0,
         "y": 2
-      },
-      "uncompressedBytes": 1135
+      }
     },
     {
-      "compressedBytes": 513,
-      "contentEncoding": "gzip",
+      "byteLength": 1134,
       "mediaType": "application/json",
-      "path": "preview/L1/x1/y1.json.gz",
+      "path": "preview/L1/x1/y1.json",
       "recordCount": 1,
-      "sha256": "75b6d169dfea5701179fe2299c8bf588984003abd700ffa45e411cfedcd9b5a6",
+      "sha256": "19aeeaadfaf1378be59d2457b5afc83f0b595f30192f6d47cba1ae7b9abe2c54",
       "tile": {
         "key": "L1/x1/y1",
         "level": 1,
         "scheme": "equal-angle-equatorial-j2000",
         "x": 1,
         "y": 1
-      },
-      "uncompressedBytes": 1134
+      }
     },
     {
-      "compressedBytes": 523,
-      "contentEncoding": "gzip",
+      "byteLength": 1139,
       "mediaType": "application/json",
-      "path": "preview/L1/x1/y2.json.gz",
+      "path": "preview/L1/x1/y2.json",
       "recordCount": 1,
-      "sha256": "fb73948675f2ec271ef26a31f6e537a5483efc17c8778b6c5b3f36b192d34384",
+      "sha256": "23a7fb6385ef7f015c4d626d4644c25e3e8d7cf160fa8c1c12e2c7e12300df3a",
       "tile": {
         "key": "L1/x1/y2",
         "level": 1,
         "scheme": "equal-angle-equatorial-j2000",
         "x": 1,
         "y": 2
-      },
-      "uncompressedBytes": 1139
+      }
     },
     {
-      "compressedBytes": 532,
-      "contentEncoding": "gzip",
+      "byteLength": 1153,
       "mediaType": "application/json",
-      "path": "preview/L1/x5/y2.json.gz",
+      "path": "preview/L1/x5/y2.json",
       "recordCount": 1,
-      "sha256": "a5c874215218b476fa136c9504a226266193970b5b651a20a60bc8571fe58d17",
+      "sha256": "7139aa022dd7892a4fc6517db872f518c4c1c6d1b9df9aa87f726e70b0af2428",
       "tile": {
         "key": "L1/x5/y2",
         "level": 1,
         "scheme": "equal-angle-equatorial-j2000",
         "x": 5,
         "y": 2
-      },
-      "uncompressedBytes": 1153
+      }
     }
   ],
   "schemaVersion": "1.0.0",

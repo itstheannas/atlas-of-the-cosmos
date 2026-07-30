@@ -187,7 +187,7 @@ async function main() {
       catalogueOriginLabelling: "passed",
       explicitUnitsAndPassbands: "passed",
       proceduralSeparation: "passed",
-      previewAndDetailTileCompression: "passed",
+      previewAndDetailTileIntegrity: "passed",
     },
     acceptedRecordIds: normalised.accepted.map((object) => object.id),
     rejectedRecords: normalised.rejected,

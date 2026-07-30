@@ -27,7 +27,7 @@ source state, are release evidence.
 | `npm run lint`               | ESLint repository check                                                                                      |
 | `npm run typecheck`          | root strict TypeScript without emit                                                                          |
 | `npm run typecheck:packages` | independent strict package TypeScript check                                                                  |
-| `npm run data:sample`        | deterministic integrity, normalisation, tiling, compression, manifest/report generation                      |
+| `npm run data:sample`        | deterministic integrity, normalisation, tiling, manifest/report generation                                   |
 | `npm run assets:sanitize`    | lossless social-card metadata removal with reviewed dimensions/pixels preserved                              |
 | `npm run test:unit`          | astronomy core, coordinates, search, pipeline, and tour-engine tests                                         |
 | `npm run test:integration`   | versioned API contracts plus SQLite migration/seed/constraint/parity/rollback artifacts                      |
@@ -75,7 +75,7 @@ Unit tests cover:
 - social-card provenance, dimensions, allowed PNG chunks, and locked SHA-256;
   the sanitizer separately verifies pixel equality before writing; and
 - deterministic sample integrity, normalisation, index/tile generation,
-  compression, validation reports, and safe output paths.
+  validation reports, and safe output paths.
 
 Scientific reference values need an independently justified source/fixture;
 tests must not compare a formula only with a duplicate of itself.

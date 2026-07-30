@@ -126,7 +126,7 @@ rebasing error.
   and disposes scene geometry, materials, textures, render lists, and renderer.
 
 The current scene consumes the in-memory editorial sample. It does not consume
-the generated compressed tile fixtures, run an occlusion system, or decode
+the generated tile fixtures, run an occlusion system, or decode
 catalogue data in a worker.
 
 ## Verification

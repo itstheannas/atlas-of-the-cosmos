@@ -1,0 +1,48 @@
+{
+  "dataOrigin": "catalogue",
+  "records": [
+    {
+      "apparentMagnitude": {
+        "caveat": "Measurement uncertainty is unavailable in this source excerpt.",
+        "method": "OpenNGC V-Mag field",
+        "passband": "V",
+        "quantity": {
+          "unit": "mag",
+          "value": 5.8
+        },
+        "status": "observed"
+      },
+      "coordinate": {
+        "declination": {
+          "unit": "deg",
+          "value": 36.46130555555556
+        },
+        "epoch": {
+          "scale": "Julian-year",
+          "value": 2000
+        },
+        "frame": "ICRS",
+        "kind": "equatorial",
+        "origin": "solar-system-barycentre",
+        "rightAscension": {
+          "unit": "deg",
+          "value": 250.42345833333337
+        }
+      },
+      "dataOrigin": "catalogue",
+      "id": "openngc:ngc6205",
+      "objectType": "globular-cluster",
+      "primaryName": "Hercules Globular Cluster",
+      "sourceCatalogue": "OpenNGC"
+    }
+  ],
+  "representation": "preview",
+  "schemaVersion": "1.0.0",
+  "tile": {
+    "key": "L1/x5/y2",
+    "level": 1,
+    "scheme": "equal-angle-equatorial-j2000",
+    "x": 5,
+    "y": 2
+  }
+}
