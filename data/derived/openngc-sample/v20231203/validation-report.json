@@ -1,0 +1,34 @@
+{
+  "acceptedRecordIds": [
+    "openngc:ngc0224",
+    "openngc:ngc1952",
+    "openngc:ngc1976",
+    "openngc:ngc6205"
+  ],
+  "checks": {
+    "canonicalIdUniqueness": "passed",
+    "catalogueOriginLabelling": "passed",
+    "coordinateRanges": "passed",
+    "explicitUnitsAndPassbands": "passed",
+    "previewAndDetailTileCompression": "passed",
+    "proceduralSeparation": "passed",
+    "provenancePresence": "passed",
+    "schemaValidation": "passed",
+    "sourceIntegrity": "passed"
+  },
+  "datasetVersion": "v20231203-atlas-1",
+  "generatedAt": "2023-12-03T00:00:00.000Z",
+  "limitations": [
+    "This simple dependency-free development tiler is not HEALPix.",
+    "Equal-angle cells have unequal solid angle and distortion near the celestial poles.",
+    "Production-scale ingestion should use a reviewed spherical index such as HEALPix."
+  ],
+  "pipelineVersion": "1.0.0",
+  "rejectedRecords": [],
+  "schemaVersion": "1.0.0",
+  "status": "passed",
+  "tileCounts": {
+    "detail": 4,
+    "preview": 4
+  }
+}

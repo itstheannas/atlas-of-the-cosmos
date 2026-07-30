@@ -1,0 +1,127 @@
+{
+  "datasetId": "openngc-development-sample",
+  "datasetVersion": "v20231203-atlas-1",
+  "generatedAt": "2023-12-03T00:00:00.000Z",
+  "pipelineVersion": "1.0.0",
+  "proceduralContext": {
+    "dataOrigin": "procedural",
+    "individuallyCatalogued": false,
+    "path": "data/sample/procedural-context.v1.json",
+    "sha256": "81079a3ce3bc085498ff677fbc611a6d0b150845067f6616be8ccdc7e089c773"
+  },
+  "provenance": [
+    {
+      "accessedAt": "2026-07-29",
+      "attribution": "Contains data from OpenNGC, copyright OpenNGC contributors, licensed under CC BY-SA 4.0.",
+      "citation": "Mattia Verga and OpenNGC contributors, OpenNGC v20231203.",
+      "coordinateSystem": "OpenNGC J2000 equatorial position mapped to operational ICRS at Julian epoch 2000.0, limited to published source precision.",
+      "dataset": "OpenNGC",
+      "datasetVersion": "v20231203",
+      "knownLimitations": [
+        "This is a four-record excerpt and must not be described as the complete OpenNGC catalogue.",
+        "OpenNGC combines several upstream catalogues; its Sources column should be consulted for field-level origins.",
+        "The source identifies positions as J2000 but does not state a precise reference frame; the pipeline maps them to an operational ICRS J2000 frame only at the published source precision.",
+        "No uncertainty columns are present for the selected coordinates or magnitudes, so uncertainty is unavailable rather than assumed zero.",
+        "Redshift is heliocentric in OpenNGC and is preserved without converting it to distance."
+      ],
+      "licence": "CC-BY-SA-4.0",
+      "provider": "OpenNGC contributors",
+      "recordIdentifier": "NGC0224",
+      "sourceUrl": "https://raw.githubusercontent.com/mattiaverga/OpenNGC/v20231203/database_files/NGC.csv",
+      "transformations": [
+        "Parsed source sexagesimal coordinates into decimal degrees.",
+        "Mapped the OpenNGC type code to an Atlas object type; retained sourceClassification.",
+        "Normalised NGC and Messier identifiers without inventing identifiers.",
+        "Expanded the source IAU constellation abbreviation to its conventional name.",
+        "Preserved V magnitude and heliocentric redshift; did not infer distance."
+      ]
+    },
+    {
+      "accessedAt": "2026-07-29",
+      "attribution": "Contains data from OpenNGC, copyright OpenNGC contributors, licensed under CC BY-SA 4.0.",
+      "citation": "Mattia Verga and OpenNGC contributors, OpenNGC v20231203.",
+      "coordinateSystem": "OpenNGC J2000 equatorial position mapped to operational ICRS at Julian epoch 2000.0, limited to published source precision.",
+      "dataset": "OpenNGC",
+      "datasetVersion": "v20231203",
+      "knownLimitations": [
+        "This is a four-record excerpt and must not be described as the complete OpenNGC catalogue.",
+        "OpenNGC combines several upstream catalogues; its Sources column should be consulted for field-level origins.",
+        "The source identifies positions as J2000 but does not state a precise reference frame; the pipeline maps them to an operational ICRS J2000 frame only at the published source precision.",
+        "No uncertainty columns are present for the selected coordinates or magnitudes, so uncertainty is unavailable rather than assumed zero.",
+        "Redshift is heliocentric in OpenNGC and is preserved without converting it to distance.",
+        "Position is for the Crab pulsar."
+      ],
+      "licence": "CC-BY-SA-4.0",
+      "provider": "OpenNGC contributors",
+      "recordIdentifier": "NGC1952",
+      "sourceUrl": "https://raw.githubusercontent.com/mattiaverga/OpenNGC/v20231203/database_files/NGC.csv",
+      "transformations": [
+        "Parsed source sexagesimal coordinates into decimal degrees.",
+        "Mapped the OpenNGC type code to an Atlas object type; retained sourceClassification.",
+        "Normalised NGC and Messier identifiers without inventing identifiers.",
+        "Expanded the source IAU constellation abbreviation to its conventional name.",
+        "Preserved V magnitude and heliocentric redshift; did not infer distance."
+      ]
+    },
+    {
+      "accessedAt": "2026-07-29",
+      "attribution": "Contains data from OpenNGC, copyright OpenNGC contributors, licensed under CC BY-SA 4.0.",
+      "citation": "Mattia Verga and OpenNGC contributors, OpenNGC v20231203.",
+      "coordinateSystem": "OpenNGC J2000 equatorial position mapped to operational ICRS at Julian epoch 2000.0, limited to published source precision.",
+      "dataset": "OpenNGC",
+      "datasetVersion": "v20231203",
+      "knownLimitations": [
+        "This is a four-record excerpt and must not be described as the complete OpenNGC catalogue.",
+        "OpenNGC combines several upstream catalogues; its Sources column should be consulted for field-level origins.",
+        "The source identifies positions as J2000 but does not state a precise reference frame; the pipeline maps them to an operational ICRS J2000 frame only at the published source precision.",
+        "No uncertainty columns are present for the selected coordinates or magnitudes, so uncertainty is unavailable rather than assumed zero.",
+        "Redshift is heliocentric in OpenNGC and is preserved without converting it to distance."
+      ],
+      "licence": "CC-BY-SA-4.0",
+      "provider": "OpenNGC contributors",
+      "recordIdentifier": "NGC1976",
+      "sourceUrl": "https://raw.githubusercontent.com/mattiaverga/OpenNGC/v20231203/database_files/NGC.csv",
+      "transformations": [
+        "Parsed source sexagesimal coordinates into decimal degrees.",
+        "Mapped the OpenNGC type code to an Atlas object type; retained sourceClassification.",
+        "Normalised NGC and Messier identifiers without inventing identifiers.",
+        "Expanded the source IAU constellation abbreviation to its conventional name.",
+        "Preserved V magnitude and heliocentric redshift; did not infer distance."
+      ]
+    },
+    {
+      "accessedAt": "2026-07-29",
+      "attribution": "Contains data from OpenNGC, copyright OpenNGC contributors, licensed under CC BY-SA 4.0.",
+      "citation": "Mattia Verga and OpenNGC contributors, OpenNGC v20231203.",
+      "coordinateSystem": "OpenNGC J2000 equatorial position mapped to operational ICRS at Julian epoch 2000.0, limited to published source precision.",
+      "dataset": "OpenNGC",
+      "datasetVersion": "v20231203",
+      "knownLimitations": [
+        "This is a four-record excerpt and must not be described as the complete OpenNGC catalogue.",
+        "OpenNGC combines several upstream catalogues; its Sources column should be consulted for field-level origins.",
+        "The source identifies positions as J2000 but does not state a precise reference frame; the pipeline maps them to an operational ICRS J2000 frame only at the published source precision.",
+        "No uncertainty columns are present for the selected coordinates or magnitudes, so uncertainty is unavailable rather than assumed zero.",
+        "Redshift is heliocentric in OpenNGC and is preserved without converting it to distance."
+      ],
+      "licence": "CC-BY-SA-4.0",
+      "provider": "OpenNGC contributors",
+      "recordIdentifier": "NGC6205",
+      "sourceUrl": "https://raw.githubusercontent.com/mattiaverga/OpenNGC/v20231203/database_files/NGC.csv",
+      "transformations": [
+        "Parsed source sexagesimal coordinates into decimal degrees.",
+        "Mapped the OpenNGC type code to an Atlas object type; retained sourceClassification.",
+        "Normalised NGC and Messier identifiers without inventing identifiers.",
+        "Expanded the source IAU constellation abbreviation to its conventional name.",
+        "Preserved V magnitude and heliocentric redshift; did not infer distance."
+      ]
+    }
+  ],
+  "recordsAccepted": 4,
+  "recordsRejected": 0,
+  "reproducibleTimestampPolicy": "Generated timestamps are pinned to the upstream release date for byte-for-byte reproducibility.",
+  "schemaVersion": "1.0.0",
+  "sha256": "1712e3ccf5b469393ae45ca373a6dac9297e0a403274e2d40cf8cf9c1f333afc",
+  "sourceManifest": "data/manifests/sources/openngc-v20231203.sample.json",
+  "sourceSha256": "05f0dd370920aa9a5d7a6792660421c5d5b3bef95648140a484530e1ea07d2ca",
+  "tileIndex": "tile-index.json"
+}

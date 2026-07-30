@@ -1,0 +1,9 @@
+{
+  "name": "Atlas of the Cosmos",
+  "short_name": "Cosmos Atlas",
+  "description": "A provenance-aware interactive astronomical reference atlas by Annas M. Ishtiaq.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050908",
+  "theme_color": "#07100f"
+}

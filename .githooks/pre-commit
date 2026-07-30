@@ -1,0 +1,26 @@
+#!/bin/sh
+set -eu
+
+echo "Atlas pre-commit: environment"
+npm run env:check
+
+echo "Atlas pre-commit: formatting"
+npm run format:check
+
+echo "Atlas pre-commit: lint"
+npm run lint
+
+echo "Atlas pre-commit: root types"
+npm run typecheck
+
+echo "Atlas pre-commit: package types"
+npm run typecheck:packages
+
+echo "Atlas pre-commit: deterministic tests"
+npm test
+
+echo "Atlas pre-commit: source security scan"
+npm run security:scan
+
+echo "Atlas pre-commit: locked dependency licences"
+npm run security:licenses

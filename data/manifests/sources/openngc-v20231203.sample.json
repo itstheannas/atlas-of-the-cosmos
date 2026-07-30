@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "1.0.0",
+  "sourceId": "openngc-v20231203-sample",
+  "provider": "OpenNGC contributors",
+  "dataset": "OpenNGC",
+  "datasetVersion": "v20231203",
+  "accessMethod": "Pinned HTTPS release-tag download; the repository ships a selected JSON excerpt.",
+  "upstreamUrl": "https://github.com/mattiaverga/OpenNGC/tree/v20231203",
+  "licence": "CC-BY-SA-4.0",
+  "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "attribution": "Contains data from OpenNGC, copyright OpenNGC contributors, licensed under CC BY-SA 4.0.",
+  "updateStrategy": "Create a new immutable raw version directory, review upstream field/source changes, update the checksum, and rerun the pipeline. Never mutate a published raw version.",
+  "coordinateSystem": "Equatorial J2000 in source sexagesimal notation; normalised sample uses operational ICRS degrees at Julian epoch 2000.0 with a frame-precision caveat.",
+  "units": {
+    "rightAscension": "source HH:MM:SS.s; derived deg",
+    "declination": "source signed DD:MM:SS.s; derived deg",
+    "visualMagnitude": "mag in V passband",
+    "redshift": "dimensionless heliocentric redshift"
+  },
+  "uncertaintyFields": "No uncertainty values are present in the selected OpenNGC columns; derived records explicitly omit uncertainty.",
+  "transformations": [
+    "Select four named records without changing source values.",
+    "Parse sexagesimal right ascension and declination into degrees.",
+    "Map OpenNGC type codes to Atlas object types while preserving the original typeCode.",
+    "Expand the selected IAU constellation abbreviations to conventional names.",
+    "Normalise NGC and Messier identifiers.",
+    "Preserve observed V magnitude and heliocentric redshift without deriving distance."
+  ],
+  "validationRules": [
+    "Reject malformed sexagesimal coordinates and non-finite values.",
+    "Require unique canonical OpenNGC identifiers.",
+    "Require complete source provenance and an explicit dataOrigin of catalogue.",
+    "Require right ascension in [0, 360) deg and declination in [-90, +90] deg."
+  ],
+  "knownLimitations": [
+    "Four records are not representative of the full catalogue.",
+    "Magnitude and coordinate uncertainties are unavailable in this excerpt.",
+    "The operational ICRS mapping is limited by the source's J2000 frame description and is not a claim of milliarcsecond accuracy.",
+    "Redshift is not converted into cosmological distance."
+  ],
+  "rawFile": "data/raw/openngc/v20231203/selected-records.json",
+  "rawSha256": "05f0dd370920aa9a5d7a6792660421c5d5b3bef95648140a484530e1ea07d2ca"
+}

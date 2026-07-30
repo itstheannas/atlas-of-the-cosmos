@@ -1,0 +1,201 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://atlas-of-the-cosmos.example/schemas/tour.schema.json",
+  "title": "Atlas of the Cosmos guided tour",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "id",
+    "version",
+    "language",
+    "title",
+    "summary",
+    "chapters",
+    "sources"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1.0.0" },
+    "id": { "$ref": "#/$defs/slug" },
+    "version": { "type": "string", "minLength": 1 },
+    "language": { "type": "string", "minLength": 2 },
+    "title": { "type": "string", "minLength": 1 },
+    "summary": { "type": "string", "minLength": 1 },
+    "chapters": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 100,
+      "items": { "$ref": "#/$defs/chapter" }
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 100,
+      "items": { "$ref": "#/$defs/source" }
+    }
+  },
+  "$defs": {
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "seconds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "unit"],
+      "properties": {
+        "value": { "type": "number", "minimum": 0 },
+        "unit": { "const": "s" }
+      }
+    },
+    "distance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "unit"],
+      "properties": {
+        "value": { "type": "number", "minimum": 0 },
+        "unit": {
+          "enum": ["km", "au", "ly", "pc", "kpc", "Mpc"]
+        }
+      }
+    },
+    "angle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "unit"],
+      "properties": {
+        "value": { "type": "number" },
+        "unit": { "const": "deg" }
+      }
+    },
+    "waypoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["targetObjectId", "targetLock"],
+      "properties": {
+        "targetObjectId": { "type": "string", "minLength": 1 },
+        "targetLock": { "type": "boolean" },
+        "cameraDistance": { "$ref": "#/$defs/distance" },
+        "orientation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["yaw", "pitch", "roll"],
+          "properties": {
+            "yaw": { "$ref": "#/$defs/angle" },
+            "pitch": {
+              "allOf": [
+                { "$ref": "#/$defs/angle" },
+                {
+                  "properties": {
+                    "value": { "minimum": -90, "maximum": 90 }
+                  }
+                }
+              ]
+            },
+            "roll": { "$ref": "#/$defs/angle" }
+          }
+        }
+      }
+    },
+    "chapter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "caption",
+        "transcript",
+        "sourceIds",
+        "duration",
+        "waypoint",
+        "transition",
+        "pauseAtEnd",
+        "contentBasis"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/slug" },
+        "title": { "type": "string", "minLength": 1 },
+        "caption": { "type": "string", "minLength": 1 },
+        "transcript": { "type": "string", "minLength": 1 },
+        "sourceIds": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/slug" }
+        },
+        "duration": {
+          "allOf": [
+            { "$ref": "#/$defs/seconds" },
+            { "properties": { "value": { "exclusiveMinimum": 0 } } }
+          ]
+        },
+        "waypoint": { "$ref": "#/$defs/waypoint" },
+        "transition": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["style", "duration"],
+          "properties": {
+            "style": { "enum": ["fly", "cut", "fade"] },
+            "duration": { "$ref": "#/$defs/seconds" }
+          }
+        },
+        "pauseAtEnd": { "type": "boolean" },
+        "contentBasis": {
+          "enum": [
+            "observed",
+            "derived",
+            "estimated",
+            "modelled",
+            "illustrative"
+          ]
+        },
+        "caveat": { "type": "string", "minLength": 1 },
+        "narration": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["script"],
+          "properties": {
+            "script": { "type": "string", "minLength": 1 },
+            "audioUrl": {
+              "type": "string",
+              "pattern": "^(?:https://|/(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))).+"
+            },
+            "audioDuration": {
+              "allOf": [
+                { "$ref": "#/$defs/seconds" },
+                { "properties": { "value": { "exclusiveMinimum": 0 } } }
+              ]
+            }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "contentBasis": {
+                "enum": ["estimated", "modelled", "illustrative"]
+              }
+            }
+          },
+          "then": { "required": ["caveat"] }
+        }
+      ]
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title", "provider", "url", "accessedAt"],
+      "properties": {
+        "id": { "$ref": "#/$defs/slug" },
+        "title": { "type": "string", "minLength": 1 },
+        "provider": { "type": "string", "minLength": 1 },
+        "url": {
+          "type": "string",
+          "pattern": "^(?:https://|/(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))).+"
+        },
+        "accessedAt": { "type": "string", "format": "date" }
+      }
+    }
+  }
+}

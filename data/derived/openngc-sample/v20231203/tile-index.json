@@ -1,0 +1,143 @@
+{
+  "detailLevel": 3,
+  "detailTiles": [
+    {
+      "compressedBytes": 1433,
+      "contentEncoding": "gzip",
+      "mediaType": "application/json",
+      "path": "detail/L3/x0/y11.json.gz",
+      "recordCount": 1,
+      "sha256": "f5ef1c9c80904c64e65a75f047de51e16933a063b8e5d8d068a38c2efd1686cf",
+      "tile": {
+        "key": "L3/x0/y11",
+        "level": 3,
+        "scheme": "equal-angle-equatorial-j2000",
+        "x": 0,
+        "y": 11
+      },
+      "uncompressedBytes": 3865
+    },
+    {
+      "compressedBytes": 1450,
+      "contentEncoding": "gzip",
+      "mediaType": "application/json",
+      "path": "detail/L3/x22/y11.json.gz",
+      "recordCount": 1,
+      "sha256": "50c1b55e2aa61eb29a7f4c395e627643be5ad8fadfd6f979b725f823ad3f2fb7",
+      "tile": {
+        "key": "L3/x22/y11",
+        "level": 3,
+        "scheme": "equal-angle-equatorial-j2000",
+        "x": 22,
+        "y": 11
+      },
+      "uncompressedBytes": 3889
+    },
+    {
+      "compressedBytes": 1441,
+      "contentEncoding": "gzip",
+      "mediaType": "application/json",
+      "path": "detail/L3/x7/y7.json.gz",
+      "recordCount": 1,
+      "sha256": "a19bd93e54c37fe153f2aa2959af6b0173376fc8ea3108d5d42f1fe15f92fda5",
+      "tile": {
+        "key": "L3/x7/y7",
+        "level": 3,
+        "scheme": "equal-angle-equatorial-j2000",
+        "x": 7,
+        "y": 7
+      },
+      "uncompressedBytes": 3897
+    },
+    {
+      "compressedBytes": 1404,
+      "contentEncoding": "gzip",
+      "mediaType": "application/json",
+      "path": "detail/L3/x7/y9.json.gz",
+      "recordCount": 1,
+      "sha256": "0283307c5bf971eeb36f2deef1c3459fd74e8a6eb546c0b3fa630541f42f3060",
+      "tile": {
+        "key": "L3/x7/y9",
+        "level": 3,
+        "scheme": "equal-angle-equatorial-j2000",
+        "x": 7,
+        "y": 9
+      },
+      "uncompressedBytes": 3601
+    }
+  ],
+  "previewLevel": 1,
+  "previewTiles": [
+    {
+      "compressedBytes": 520,
+      "contentEncoding": "gzip",
+      "mediaType": "application/json",
+      "path": "preview/L1/x0/y2.json.gz",
+      "recordCount": 1,
+      "sha256": "6cc8fcbe64c04e712c2ce85178b404e6eab17ceb9b9d99dd2bfca7b9a8235715",
+      "tile": {
+        "key": "L1/x0/y2",
+        "level": 1,
+        "scheme": "equal-angle-equatorial-j2000",
+        "x": 0,
+        "y": 2
+      },
+      "uncompressedBytes": 1135
+    },
+    {
+      "compressedBytes": 513,
+      "contentEncoding": "gzip",
+      "mediaType": "application/json",
+      "path": "preview/L1/x1/y1.json.gz",
+      "recordCount": 1,
+      "sha256": "75b6d169dfea5701179fe2299c8bf588984003abd700ffa45e411cfedcd9b5a6",
+      "tile": {
+        "key": "L1/x1/y1",
+        "level": 1,
+        "scheme": "equal-angle-equatorial-j2000",
+        "x": 1,
+        "y": 1
+      },
+      "uncompressedBytes": 1134
+    },
+    {
+      "compressedBytes": 523,
+      "contentEncoding": "gzip",
+      "mediaType": "application/json",
+      "path": "preview/L1/x1/y2.json.gz",
+      "recordCount": 1,
+      "sha256": "fb73948675f2ec271ef26a31f6e537a5483efc17c8778b6c5b3f36b192d34384",
+      "tile": {
+        "key": "L1/x1/y2",
+        "level": 1,
+        "scheme": "equal-angle-equatorial-j2000",
+        "x": 1,
+        "y": 2
+      },
+      "uncompressedBytes": 1139
+    },
+    {
+      "compressedBytes": 532,
+      "contentEncoding": "gzip",
+      "mediaType": "application/json",
+      "path": "preview/L1/x5/y2.json.gz",
+      "recordCount": 1,
+      "sha256": "a5c874215218b476fa136c9504a226266193970b5b651a20a60bc8571fe58d17",
+      "tile": {
+        "key": "L1/x5/y2",
+        "level": 1,
+        "scheme": "equal-angle-equatorial-j2000",
+        "x": 5,
+        "y": 2
+      },
+      "uncompressedBytes": 1153
+    }
+  ],
+  "schemaVersion": "1.0.0",
+  "scheme": "equal-angle-equatorial-j2000",
+  "schemeLimitations": [
+    "This simple dependency-free development tiler is not HEALPix.",
+    "Equal-angle cells have unequal solid angle and distortion near the celestial poles.",
+    "Production-scale ingestion should use a reviewed spherical index such as HEALPix."
+  ]
+}

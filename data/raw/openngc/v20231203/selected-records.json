@@ -1,0 +1,104 @@
+{
+  "schemaVersion": "1.0.0",
+  "selection": {
+    "description": "Four-record, legally redistributable OpenNGC excerpt for deterministic local development and tests.",
+    "selectionRule": "Named objects chosen to cover galaxy, nebula/cluster, supernova-remnant, and globular-cluster classifications.",
+    "notCompleteCatalogue": true
+  },
+  "source": {
+    "provider": "OpenNGC contributors",
+    "dataset": "OpenNGC",
+    "datasetVersion": "v20231203",
+    "accessedAt": "2026-07-29",
+    "sourceUrl": "https://raw.githubusercontent.com/mattiaverga/OpenNGC/v20231203/database_files/NGC.csv",
+    "fieldGuideUrl": "https://raw.githubusercontent.com/mattiaverga/OpenNGC/v20231203/NGC_guide.txt",
+    "licence": "CC-BY-SA-4.0",
+    "citation": "Mattia Verga and OpenNGC contributors, OpenNGC v20231203.",
+    "attribution": "Contains data from OpenNGC, copyright OpenNGC contributors, licensed under CC BY-SA 4.0.",
+    "coordinateSystem": "Equatorial J2000 coordinates, sexagesimal in the source.",
+    "knownLimitations": [
+      "This is a four-record excerpt and must not be described as the complete OpenNGC catalogue.",
+      "OpenNGC combines several upstream catalogues; its Sources column should be consulted for field-level origins.",
+      "The source identifies positions as J2000 but does not state a precise reference frame; the pipeline maps them to an operational ICRS J2000 frame only at the published source precision.",
+      "No uncertainty columns are present for the selected coordinates or magnitudes, so uncertainty is unavailable rather than assumed zero.",
+      "Redshift is heliocentric in OpenNGC and is preserved without converting it to distance."
+    ]
+  },
+  "records": [
+    {
+      "name": "NGC0224",
+      "typeCode": "G",
+      "rightAscension": "00:42:44.35",
+      "declination": "+41:16:08.6",
+      "constellationCode": "And",
+      "visualMagnitude": 3.44,
+      "redshift": -0.001,
+      "messierNumber": "031",
+      "commonNames": ["Andromeda Galaxy"],
+      "sourceFieldCodes": {
+        "Type": "1",
+        "RA": "1",
+        "Dec": "1",
+        "Const": "99",
+        "V-Mag": "2",
+        "Redshift": "2"
+      }
+    },
+    {
+      "name": "NGC1952",
+      "typeCode": "SNR",
+      "rightAscension": "05:34:31.97",
+      "declination": "+22:00:52.1",
+      "constellationCode": "Tau",
+      "visualMagnitude": 8.4,
+      "messierNumber": "001",
+      "commonNames": ["Crab Nebula"],
+      "openNgcNote": "Position is for the Crab pulsar.",
+      "sourceFieldCodes": {
+        "Type": "1",
+        "RA": "1",
+        "Dec": "1",
+        "Const": "99",
+        "V-Mag": "3"
+      }
+    },
+    {
+      "name": "NGC1976",
+      "typeCode": "Cl+N",
+      "rightAscension": "05:35:16.48",
+      "declination": "-05:23:22.8",
+      "constellationCode": "Ori",
+      "visualMagnitude": 4,
+      "redshift": 0.000093,
+      "messierNumber": "042",
+      "commonNames": ["Great Orion Nebula", "Orion Nebula"],
+      "sourceFieldCodes": {
+        "Type": "1",
+        "RA": "1",
+        "Dec": "1",
+        "Const": "99",
+        "V-Mag": "10",
+        "Redshift": "2"
+      }
+    },
+    {
+      "name": "NGC6205",
+      "typeCode": "GCl",
+      "rightAscension": "16:41:41.63",
+      "declination": "+36:27:40.7",
+      "constellationCode": "Her",
+      "visualMagnitude": 5.8,
+      "redshift": -0.000815,
+      "messierNumber": "013",
+      "commonNames": ["Hercules Globular Cluster"],
+      "sourceFieldCodes": {
+        "Type": "1",
+        "RA": "1",
+        "Dec": "1",
+        "Const": "99",
+        "V-Mag": "2",
+        "Redshift": "2"
+      }
+    }
+  ]
+}
